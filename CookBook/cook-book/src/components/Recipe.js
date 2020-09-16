@@ -23,13 +23,12 @@ class Recipe extends Component {
             <li>Step {(index + 1) + " " + direction}</li>
                 
         )}</ul></div>;
-        // const pic = null;
 
         return(
-            <div>
+            <div style={{width:'80%'}}>
                 <div>
                     {/* TODO image from file */}
-                    <img src={recipe.image} alt={recipe.title + " image"} />
+                    <img src={recipe.image} alt={recipe.title + " image"} className="rounded float-right" />
                 </div>
                 <div>
                     <h2>{recipe.title}</h2>
