@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import RecipesList from '../RecipesList'
 import recipes from '../../data/recipes_data'
 
-class App extends Component {
-    render () {
+export default function App (){
         return (
             <div className = 'container'>
                 {/* <Header
@@ -26,12 +25,8 @@ class App extends Component {
                          <button className='btn btn-primary btn-sm'>Sing In</button> 
                     </h1>
                 </div>
-                <RecipesList recipes = {recipes}>
-                    {/* Список рецептов */}
-                </RecipesList>
+                <RecipesList recipes = {recipes}/>
             </div>
         );
-    }
 }
 
-export default App
