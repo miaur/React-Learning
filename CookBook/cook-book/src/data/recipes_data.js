@@ -66,7 +66,7 @@ export default [
         "timetocook":"1 hour"
     },
     {
-        "id": "56c782f17b4e0ba78c7ad754",
+        "id": "16c782f17b4e0ba78c7ad754",
         "date": "2020-04-09T18:03:23.000Z",
         "title": "Air Fryer Chicken Thighs",
         "directions": [ "Preheat an air fryer to 400 degrees F (200 degrees C).",
@@ -84,7 +84,7 @@ export default [
         "timetocook":"1 hour"
     },
     {
-        "id": "56c782f17b4e0ba78c7ad754",
+        "id": "26c782f17b4e0ba78c7ad754",
         "date": "2020-04-09T18:03:23.000Z",
         "title": "Air Fryer Chicken Thighs",
         "directions": [ "Preheat an air fryer to 400 degrees F (200 degrees C).",

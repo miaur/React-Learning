@@ -27,17 +27,23 @@ export default function RecipesGrid({recipesList}:{recipesList:Array<RecipeModel
     setSpacing(Number((event.target as HTMLInputElement).value) as GridSpacing);
   };
 
+  if(recipesList.length > 0) {
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
         <Grid container justify="center" spacing={spacing}>
           {recipesList.map((recipe) => (
             <Grid key={recipe.id} item>
-              <Recipe recipe={recipe}></Recipe>
+              <Recipe recipe={recipe} />
             </Grid>
           ))}
         </Grid>
       </Grid>
     </Grid>
-  );
+  );}
+  else {
+    return(
+      <Grid container className={classes.root} spacing={1}>Ups... There is no recipies</Grid>
+    );
+  }
 }

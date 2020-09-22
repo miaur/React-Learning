@@ -17,6 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { RecipeModel } from '../../models/RecipeModel';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,48 +44,49 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function Recipe ({recipe} : {recipe: RecipeModel}){
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+export default function Recipe({ recipe }: { recipe: RecipeModel }) {
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
-    const ingredientsList = recipe.ingredients.map(
-      (ingredient:any) => 
-          <li>{ingredient}</li>
-    );
-    const ingredients = <div><ul>{ingredientsList}</ul></div>;
+  const ingredientsList = recipe.ingredients.map(
+    (ingredient, index) =>
+      <li key={index}>{ingredient}</li>
+  );
+  const ingredients = <span><ul>{ingredientsList}</ul></span>;
 
-    const directions = <div><ul>{
-      recipe.directions.map(
-          (direction:string, index:number) => 
-      <li>Step {(index + 1) + " " + direction}</li>
-          
-    )}</ul></div>;
-  
-    return (
-        <Card className={classes.root}>
-        <CardHeader
+  const directions = <span><ul>{
+    recipe.directions.map(
+      (direction: string, index: number) =>
+        <li key={index}>Step {(index + 1) + " " + direction}</li>
+
+    )}</ul></span>;
+
+  return (
+    <Card className={classes.root}>
+      <CardHeader
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title= {recipe.title}
+        title={<Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>}
         subheader={(new Date(recipe.date)).toDateString()}
       />
       <CardMedia
         className={classes.media}
         image={recipe.image}
-        title="Paella dish"
+        title={recipe.title}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           Time to cook: {recipe.timetocook}
         </Typography>
-      <Typography>Ingredients: {ingredients}</Typography>
+        <Typography paragraph>Ingredients: </Typography>
+        {ingredients}
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
@@ -107,11 +109,9 @@ export default function Recipe ({recipe} : {recipe: RecipeModel}){
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Directions:</Typography>
-          <Typography paragraph>
-            {directions}
-          </Typography>
+          {directions}
         </CardContent>
       </Collapse>
     </Card>
-    );
+  );
 }
