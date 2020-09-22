@@ -9,10 +9,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
-    paper: {
-      height: 140,
-      width: 100,
-    },
     control: {
       padding: theme.spacing(2),
     },
@@ -30,15 +26,11 @@ export default function RecipesGrid({recipesList}:{recipesList:Array<RecipeModel
   if(recipesList.length > 0) {
   return (
     <Grid container className={classes.root} spacing={2}>
-      <Grid item xs={12}>
-        <Grid container justify="center" spacing={spacing}>
           {recipesList.map((recipe) => (
-            <Grid key={recipe.id} item>
+            <Grid xs={6} lg={3} key={recipe.id} item>
               <Recipe recipe={recipe} />
             </Grid>
           ))}
-        </Grid>
-      </Grid>
     </Grid>
   );}
   else {
