@@ -53,7 +53,7 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
 
   const ingredientsList = recipe.ingredients.map(
     (ingredient, index) =>
-      <li key={index}>{ingredient}</li>
+      <li key={index}>{ingredient.name + " - " + ingredient.quantity}</li>
   );
   const ingredients = <span><ul>{ingredientsList}</ul></span>;
 

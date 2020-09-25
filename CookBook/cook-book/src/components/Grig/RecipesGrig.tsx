@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid, { GridSpacing } from '@material-ui/core/Grid';
 import  {RecipeModel}  from '../../models/RecipeModel';
 import Recipe from '../Recipe'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function RecipesGrid({recipesList}:{recipesList:Array<RecipeModel>}) {
+export default function RecipesGrid({recipesList}:{recipesList?: Array<RecipeModel>}) {
   const [spacing, setSpacing] = React.useState<GridSpacing>(2);
   const classes = useStyles();
 
@@ -23,19 +24,21 @@ export default function RecipesGrid({recipesList}:{recipesList:Array<RecipeModel
     setSpacing(Number((event.target as HTMLInputElement).value) as GridSpacing);
   };
 
-  if(recipesList.length > 0) {
-  return (
-    <Grid container className={classes.root} spacing={2}>
-          {recipesList.map((recipe) => (
-            <Grid xs={6} lg={3} key={recipe.id} item>
-              <Recipe recipe={recipe} />
-            </Grid>
-          ))}
-    </Grid>
-  );}
-  else {
+  if (!recipesList?.length){
     return(
-      <Grid container className={classes.root} spacing={1}>Ups... There is no recipies</Grid>
+      <Grid container className={classes.root} spacing={1}>
+        <Skeleton variant="rect" width={210} height={118} />
+      </Grid>
     );
   }
+  
+  return (
+    <Grid container className={classes.root} spacing={2}>
+      {recipesList.map((recipe) => (
+        <Grid xs={6} lg={3} key={recipe.id} item>
+          <Recipe recipe={recipe} />
+        </Grid>
+      ))}
+    </Grid>
+  );
 }

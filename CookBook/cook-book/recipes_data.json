@@ -1,4 +1,5 @@
-export default [
+{
+    "recipes":[
     {
         "id": "56c782f18990ecf954f6e027",
         "title": "Crock Pot Roast",
@@ -500,4 +501,4 @@ export default [
         "image": "http://www.chatelaine.com/wp-content/uploads/2013/05/Curried-chicken-salad.jpg",
         "originalURL": "http://www.chatelaine.com/recipe/stovetop-cooking-method/curried-chicken-salad/"
     }
-]
+]}
