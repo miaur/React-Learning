@@ -4,41 +4,31 @@ import { useQuery, QueryCache, ReactQueryCacheProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query-devtools";
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipesList from '../RecipesList'
+import RecipesGridSkeleton from "../RecipeSkeleton/RecipesGridSkeleton";
 
 const queryCache = new QueryCache();
 
 const url = "http://localhost:3000/recipes";
 
-
 export function LoadAllRecipes() {
-    var recipesList: Array<RecipeModel> | undefined = new Array<RecipeModel>();
     const { isLoading, error, data } = useQuery<Array<RecipeModel>>("", async () => {
         const resultFetch = await fetch(url);
         const resultJson = await resultFetch.json();
         return resultJson;
     });
-    if (error) { 
-        const errorMessage = error as {message: string};
-        return(
-            <ReactQueryCacheProvider queryCache={queryCache}>
-                <p>{"An error has occurred: " + errorMessage?.message}</p>
-                <ReactQueryDevtools initialIsOpen />
-            </ReactQueryCacheProvider>
-            );
+    var retValue = null;
+    if (error) {       
+        const errorMessage = error as { message: string };
+        retValue = <p>{"An error has occurred: " + errorMessage?.message}</p>;
     }
-    if(isLoading) {
-        return (
-            <ReactQueryCacheProvider queryCache={queryCache}>
-                <p>Loading.....</p>
-                <ReactQueryDevtools initialIsOpen />
-            </ReactQueryCacheProvider>
-        );
-    }
+    if (isLoading) 
+        retValue = <RecipesGridSkeleton /> ;
 
-    recipesList = data;
+    if(!retValue)
+        retValue = <RecipesList recipes={data} />
     return (
         <ReactQueryCacheProvider queryCache={queryCache}>
-            <RecipesList recipes={recipesList} />
+            {retValue}
             <ReactQueryDevtools initialIsOpen />
         </ReactQueryCacheProvider>
     );

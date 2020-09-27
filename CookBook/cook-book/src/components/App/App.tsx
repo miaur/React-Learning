@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container'
 import Header from '../Header'
 
 import LoadAllRecipes from '../DataLoader/DataLoader'
-
+import TestSkeleton from '../TestSkeleton/TestSkeleton';
 
 const history = createBrowserHistory();
 
@@ -21,9 +21,8 @@ export default function App() {
                 <Header />
                 <Switch>
                     <Route path='/recipe/:id' component={RecipePage} />
-                    <Route path='/'>
-                        <LoadAllRecipes/>
-                    </Route>
+                    <Route path='/testpage' component={TestSkeleton} />
+                    <Route path='/'><LoadAllRecipes/></Route>
                 </Switch>
             </Router>
         </Container>

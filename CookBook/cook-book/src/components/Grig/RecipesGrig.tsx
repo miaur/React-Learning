@@ -3,7 +3,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid, { GridSpacing } from '@material-ui/core/Grid';
 import  {RecipeModel}  from '../../models/RecipeModel';
 import Recipe from '../Recipe'
-import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,9 +25,7 @@ export default function RecipesGrid({recipesList}:{recipesList?: Array<RecipeMod
 
   if (!recipesList?.length){
     return(
-      <Grid container className={classes.root} spacing={1}>
-        <Skeleton variant="rect" width={210} height={118} />
-      </Grid>
+      <Grid container className={classes.root} spacing={1}>Ups... There is no recipies</Grid>
     );
   }
   

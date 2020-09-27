@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
         toolbar: {
             justifyContent: "space-between",
             alignItems: 'flex-start',
-            paddingTop: theme.spacing(2),
+            paddingTop: theme.spacing(1),
         },
         appBar: {
             marginBottom: theme.spacing(3),
@@ -23,12 +23,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Header() {
     const classes = useStyles();
-    const img = <img width="80%" height="80%" src="https://icons.iconarchive.com/icons/mcdo-design/book/256/Cook-Book-icon.png" alt="Cook Book" />
+    const img = <img width="90px" src="https://icons.iconarchive.com/icons/mcdo-design/book/256/Cook-Book-icon.png" alt="Cook Book" />
     return (
         <AppBar className={classes.appBar} position="static" color="default">
             <Toolbar className={classes.toolbar}>
                 <Link to={`/`}>
                     {img}
+                </Link>
+                <Link to={`/testpage`}>
+                    <Button variant="outlined" color="primary">Test Page</Button>
                 </Link>
                 <Button variant="outlined" color="primary">Sing In</Button>
             </Toolbar>

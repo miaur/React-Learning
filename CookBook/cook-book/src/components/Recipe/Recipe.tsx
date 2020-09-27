@@ -37,9 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
     expandOpen: {
       transform: 'rotate(180deg)',
     },
-    avatar: {
-      backgroundColor: red[500],
-    },
   }),
 );
 
@@ -95,7 +92,7 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
           <ShareIcon />
         </IconButton>
         <IconButton
-        //todo: expand steps
+          //todo: expand steps
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
           })}
