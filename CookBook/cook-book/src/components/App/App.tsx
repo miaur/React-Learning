@@ -9,8 +9,7 @@ import { createBrowserHistory } from 'history';
 import Container from '@material-ui/core/Container'
 import Header from '../Header'
 
-import LoadAllRecipes from '../DataLoader/DataLoader'
-import TestSkeleton from '../TestSkeleton/TestSkeleton';
+import LoaderAllRecipes, {LoaderRecipeById}  from '../DataLoader/DataLoader'
 
 const history = createBrowserHistory();
 
@@ -20,9 +19,8 @@ export default function App() {
             <Router history={history}>
                 <Header />
                 <Switch>
-                    <Route path='/recipe/:id' component={RecipePage} />
-                    <Route path='/testpage' component={TestSkeleton} />
-                    <Route path='/'><LoadAllRecipes/></Route>
+                    <Route path='/recipe/:id' component={LoaderRecipeById} />
+                    <Route path='/'><LoaderAllRecipes/></Route>
                 </Switch>
             </Router>
         </Container>

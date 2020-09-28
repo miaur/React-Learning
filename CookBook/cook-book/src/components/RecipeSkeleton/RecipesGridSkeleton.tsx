@@ -84,11 +84,14 @@ export function RecipeSkeleton() {
       </Card>
     );
   }
+  interface Props {
+    count: number;
+ }
   
-  export default function RecipesGridSkeleton() {
+  export default function RecipesGridSkeleton(props:Props) {
     const classes = useStyles();
     var arr = new Array();
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < props.count; i++) {
       arr.push(
         <Grid xs={6} lg={3} key={i} item>
           <RecipeSkeleton />
