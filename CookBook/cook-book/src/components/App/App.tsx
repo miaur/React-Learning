@@ -1,6 +1,5 @@
 import React from 'react'
 import RecipesList from '../RecipesList'
-// import recipes from '../../data/recipes_data'
 
 import { Switch, Router, Route } from 'react-router-dom'
 import RecipePage from '../RecipePage';
