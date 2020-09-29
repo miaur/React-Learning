@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 left: "-1.5em",
                 width: "1.5em",
                 textAlign: "center",
-                color: "black",
+                color: theme.palette.grey['50'],
                 fontWeight: "bold",
                 background: "grey",
                 borderRadius: "50%",
