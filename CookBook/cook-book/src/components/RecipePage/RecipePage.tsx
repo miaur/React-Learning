@@ -1,11 +1,10 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Avatar, CardMedia, Paper } from '@material-ui/core';
+import { CardMedia, Paper } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
 import { RecipeModel } from '../../models/RecipeModel';
-import Image from 'material-ui-image'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 type RecipePageProps = {} & RouteComponentProps<{

@@ -30,8 +30,8 @@ export default function Header() {
                 <Link to={`/`}>
                     {img}
                 </Link>
-                <Link to={`/testpage`}>
-                    <Button variant="outlined" color="primary">Test Page</Button>
+                <Link to={`/editForm`}>
+                    <Button variant="outlined" color="primary">Edit Recipe Form</Button>
                 </Link>
                 <Button variant="outlined" color="primary">Sing In</Button>
             </Toolbar>
