@@ -90,7 +90,7 @@ export function RecipeSkeleton() {
   
   export default function RecipesGridSkeleton(props:Props) {
     const classes = useStyles();
-    var arr = new Array();
+    var arr = [];
     for (var i = 0; i < props.count; i++) {
       arr.push(
         <Grid xs={6} lg={3} key={i} item>
