@@ -16,17 +16,3 @@ export enum IngredientType {
     "flavoring",
     "other",
 }
-
-
-// export const TypeModel = [
-//     "groats",
-//     "vegetables",
-//     "fruits",
-//     "meat",
-//     "fish",
-//     "spice",
-//     "dairy",
-//     "condiments",
-//     "flavoring",
-//     "other",
-// ]

@@ -2,15 +2,16 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import React from 'react'
 
 
-interface Props {
-    alertDialogState: {    
-        text: string,
+interface AlertDialogProps {
+    alertDialogState: {
+        alertTitle?: string,
+        text?: string,
         open: boolean,
     },
     onClose: () => void,
 }
-export default function AlertDialog(props: Props) {
-    const {onClose} = props;
+export default function AlertDialog(props: AlertDialogProps) {
+    const { onClose } = props;
 
     return (
         <Dialog
@@ -18,14 +19,14 @@ export default function AlertDialog(props: Props) {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">{"Alert"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{props.alertDialogState.alertTitle ? props.alertDialogState.alertTitle: ""}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {props.alertDialogState.text}
+                    {props.alertDialogState.text ? props.alertDialogState.text : ''}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => {onClose()}} color="primary">
+                <Button onClick={() => { onClose() }} color="primary">
                     Ok
           </Button>
             </DialogActions>

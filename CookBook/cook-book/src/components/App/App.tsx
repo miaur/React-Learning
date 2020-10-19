@@ -9,6 +9,7 @@ import Header from '../Header'
 
 import {LoaderRecipeById}  from '../DataLoader/DataLoader'
 import RecipeForm from '../RecipePage/RecipeForm';
+import FormikTestForm from '../FormikTest/FormikTestForm';
 
 const history = createBrowserHistory();
 
@@ -20,6 +21,7 @@ export default function App() {
                 <Switch>
                     <Route path='/recipe/:id' component={LoaderRecipeById} />
                     <Route path='/editForm' component={RecipeForm}/>
+                    <Route path='/FormikTest' component={FormikTestForm}/>
                     <Route path='/'><RecipesList/></Route>
                 </Switch>
             </Router>

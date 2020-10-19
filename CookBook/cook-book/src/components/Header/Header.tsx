@@ -33,6 +33,9 @@ export default function Header() {
                 <Link to={`/editForm`}>
                     <Button variant="outlined" color="primary">Edit Recipe Form</Button>
                 </Link>
+                <Link to={`/formikTest`}>
+                    <Button variant="outlined" color="primary">Formik Test</Button>
+                </Link>
                 <Button variant="outlined" color="primary">Sing In</Button>
             </Toolbar>
         </AppBar>
