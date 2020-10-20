@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-interface stepProps {
+interface StepProps {
     stepValue: string,
     index: number,
     onDeleteClick: () => void;
 }
 
-export default function StepForm(props: stepProps) {
+export default function StepForm(props: StepProps) {
     const classes = useStyles();
     const { onDeleteClick } = props;
 

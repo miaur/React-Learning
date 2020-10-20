@@ -2,17 +2,17 @@ import React, { useRef, useState } from 'react'
 
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Button, Grid, InputAdornment, List, Paper } from '@material-ui/core';
+import { Button, Grid, List, Paper } from '@material-ui/core';
 import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
 import IngredientForm from './IngredientForm';
 import { IngredientModel } from '../../models/IngredientModel';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import { AlertDialogState } from '../../models/AlertDialogState'
-import { InsertNewRecipeAxios } from '../DataLoader/DataLoader';
+import { InsertRecipe, UpdateRecipe } from '../RecepieControl/RecepieControl';
 import { RecipeModel } from '../../models/RecipeModel';
 
 import { Field, FieldArray, Form, Formik } from 'formik';
-import { validationSchema, initialFormikvalues } from './RPFormikValidation'
+import { validationSchema } from './RPFormikValidation'
 import StepForm from './StepForm';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,16 +50,51 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export function makeRandomKey(length: number) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
 }
 
-export default function RecipeForm() {
+interface FormikRecipeValues {
+    ingridientName: string,
+    ingridientCount: string,
+    ingridientType: string,
+}
+
+export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeModel }) {
+    let recipeToEditId = "0";
+    let initialRecipeToEditvalues = {
+        id: recipeToEditId,
+        title: "",
+        ingredients: [{ ingridientName: "", ingridientCount: "", ingridientType: "" }],
+        steps: [""],
+        date: "",
+        image: "",
+        timetocook: ""
+    };
+    if (recipeToEdit) {
+        recipeToEditId = recipeToEdit.id;
+        initialRecipeToEditvalues.id = recipeToEdit.id;
+        initialRecipeToEditvalues.title = recipeToEdit.title;
+        initialRecipeToEditvalues.steps = recipeToEdit.directions;
+        initialRecipeToEditvalues.image = recipeToEdit.image;
+        initialRecipeToEditvalues.timetocook = recipeToEdit.timetocook;
+        let ingrs: Array<FormikRecipeValues> = [];
+        recipeToEdit.ingredients.forEach(i => {
+            let ingr = {
+                ingridientName: i.name,
+                ingridientCount: i.quantity,
+                ingridientType: i.type
+            }
+            ingrs.push(ingr);
+        });
+        initialRecipeToEditvalues.ingredients = ingrs;
+    }
+
     const classes = useStyles();
 
     const [alertDialogState, setAlertDialogState] = useState<AlertDialogState>({ open: false });
@@ -67,10 +102,10 @@ export default function RecipeForm() {
     const valueRefForTimeToCook = useRef<HTMLInputElement>();
     const valueRefForImageUrl = useRef<HTMLInputElement>();
 
-    const createRecipeObject = (title: string, directions: Array<string>, ingredients: Array<IngredientModel>) => {
-        var recipeObject: RecipeModel = {
+    const createRecipeObject = (title: string, directions: Array<string>, ingredients: Array<IngredientModel>, date?:string) => {
+        let recipeObject: RecipeModel = {
             id: makeRandomKey(30),
-            date: new Date().toDateString(),
+            date: (date? date: new Date().toDateString()),
             directions: directions,
             title: title,
             image: valueRefForImageUrl.current ? valueRefForImageUrl.current.value : '',
@@ -80,38 +115,50 @@ export default function RecipeForm() {
         return recipeObject;
     }
 
-
-
     return (
         <Paper className={classes.mainPaper} >
             <Formik
                 onSubmit={(values) => {
-                    var ingredientsValues = new Array<IngredientModel>();
+                    let ingredientsValues = new Array<IngredientModel>();
                     values.ingredients.forEach(i => {
-                        var ingr: IngredientModel = {
+                        let ingr: IngredientModel = {
                             quantity: i.ingridientCount,
                             name: i.ingridientName,
                             type: i.ingridientType
                         }
                         ingredientsValues.push(ingr);
                     });
-                    var newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, ingredientsValues);
-                    var resultParams = InsertNewRecipeAxios(newRecipeToInsert);
-                    resultParams.then(() => {
-                        setAlertDialogState({ text: "New Recipe inserted.", open: true });
-                    }).catch((error) => {
-                        const errorMessage = error as { message: string };
-                        var alertMessage = "An error has occurred: " + errorMessage?.message;
-                        setAlertDialogState({ alertTitle: 'Error', text: alertMessage, open: true });
-                    });
-                    console.log("===OnSubmit===");
+                    if (!recipeToEditId || recipeToEditId === '0') {
+                        let newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, ingredientsValues);
+                        let resultParams = InsertRecipe(newRecipeToInsert);
+                        resultParams.then(() => {
+                            setAlertDialogState({ text: "New Recipe inserted.", open: true });
+                        }).catch((error) => {
+                            const errorMessage = error as { message: string };
+                            let alertMessage = "An error has occurred: " + errorMessage?.message;
+                            setAlertDialogState({ alertTitle: 'Error', text: alertMessage, open: true });
+                        });
+                    }
+                    else {
+                        let newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, ingredientsValues, values.date);
+                        newRecipeToInsert.id = recipeToEditId;
+                        let resultParams = UpdateRecipe(newRecipeToInsert);
+                        resultParams.then(() => {
+                            setAlertDialogState({ text: "Recipe updated.", open: true });
+                        }).catch((error) => {
+                            const errorMessage = error as { message: string };
+                            let alertMessage = "An error has occurred: " + errorMessage?.message;
+                            setAlertDialogState({ alertTitle: 'Error', text: alertMessage, open: true });
+                        });
+                    }
+                    console.log("===OnSubmit done.===");
                 }}
-                initialValues={initialFormikvalues}
+                initialValues={initialRecipeToEditvalues}
                 validationSchema={validationSchema}
                 render={({ values }) => (
                     <Form>
                         <div className={classes.root} >
-                            <Grid container spacing={2} justify="center" alignItems="center">
+                             <Grid container spacing={2} justify="center" alignItems="center">
                                 {/* *** Title *** */}
                                 <Grid item xs={12}>
                                     <Field name={'title'}>
@@ -128,24 +175,31 @@ export default function RecipeForm() {
                                 </Grid>
                                 {/* *** Time to cook *** */}
                                 <Grid item xs={12}>
-                                    <TextField className={classes.singleTextfield}
-                                        id="outlined-required"
-                                        label="Time to cook"
-                                        variant="outlined"
-                                        InputProps={{
-                                            endAdornment: <InputAdornment position="end">Min</InputAdornment>,
-                                        }}
-                                        inputRef={valueRefForTimeToCook}
-                                    />
+                                    <Field name={'timetocook'}>
+                                        {({ field, meta }: any) => (
+                                            <TextField className={classes.singleTextfield}
+                                                id="outlined-required"
+                                                label="Time to cook"
+                                                variant="outlined"
+                                                inputRef={valueRefForTimeToCook}
+                                                {...field} error={!!meta.error && meta.touched}
+                                            />
+                                        )}
+                                    </Field>
                                 </Grid>
                                 {/* *** Image *** */}
                                 <Grid item xs={12}>
-                                    <TextField className={classes.singleTextfield}
-                                        id="outlined-required"
-                                        label="Image url"
-                                        variant="outlined"
-                                        inputRef={valueRefForImageUrl}
-                                    />
+                                    <Field name={'image'}>
+                                        {({ field, meta }: any) => (
+                                            <TextField className={classes.singleTextfield}
+                                                id="outlined-required"
+                                                label="Image url"
+                                                variant="outlined"
+                                                inputRef={valueRefForImageUrl}
+                                                {...field} error={!!meta.error && meta.touched}
+                                            />
+                                        )}
+                                    </Field>
                                 </Grid>
                                 {/* *** Ingredients *** */}
                                 <FieldArray name="ingredients"
@@ -213,11 +267,6 @@ export default function RecipeForm() {
                                                 <Grid item xs={1}>
                                                     <Button variant="contained" color="primary" onClick={
                                                         () => {
-                                                            var step = {
-                                                                stepKey: makeRandomKey(5),
-                                                                stepValue: '',
-                                                                tmpValue: '',
-                                                            };
                                                             stepsArrayHelpers.push("");
                                                             // setSteps(steps.concat([step]))
                                                         }}><AddCircleOutlineTwoToneIcon /></Button>

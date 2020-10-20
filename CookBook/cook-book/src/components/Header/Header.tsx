@@ -1,11 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,10 +30,7 @@ export default function Header() {
                     {img}
                 </Link>
                 <Link to={`/editForm`}>
-                    <Button variant="outlined" color="primary">Edit Recipe Form</Button>
-                </Link>
-                <Link to={`/formikTest`}>
-                    <Button variant="outlined" color="primary">Formik Test</Button>
+                    <Button variant="outlined" color="primary">Add New Recipe</Button>
                 </Link>
                 <Button variant="outlined" color="primary">Sing In</Button>
             </Toolbar>

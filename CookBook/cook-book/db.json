@@ -9,27 +9,27 @@
         {
           "quantity": "1",
           "name": " beef roast",
-          "type": "Meat"
+          "type": "meat"
         },
         {
           "quantity": "1 package",
           "name": "brown gravy mix",
-          "type": "Baking"
+          "type": "meat"
         },
         {
           "quantity": "1 package",
           "name": "dried Italian salad dressing mix",
-          "type": "Condiments"
+          "type": "meat"
         },
         {
           "quantity": "1 package",
           "name": "dry ranch dressing mix",
-          "type": "Condiments"
+          "type": "meat"
         },
         {
           "quantity": "1/2 cup",
           "name": "water",
-          "type": "Drinks"
+          "type": "meat"
         }
       ],
       "directions": [
@@ -44,23 +44,23 @@
     {
       "id": "56c782f18990ecf954f6e026",
       "title": "Roasted Asparagus",
-      "date": "2016-06-09T15:03:23.000Z",
+      "date": "Tue Oct 20 2020",
       "timetocook": "16 minutes",
       "ingredients": [
         {
           "quantity": "1 lb",
           "name": " asparagus",
-          "type": "Produce"
+          "type": "other"
         },
         {
           "quantity": "1 1/2 tbsp",
           "name": "olive oil",
-          "type": "Condiments"
+          "type": "other"
         },
         {
           "quantity": "1/2 tsp",
           "name": "kosher salt",
-          "type": "Baking"
+          "type": "flavoring"
         }
       ],
       "directions": [
@@ -502,88 +502,6 @@
       "originalURL": "http://www.chatelaine.com/recipe/stovetop-cooking-method/curried-chicken-salad/"
     },
     {
-      "id": "56c782f18990fdjf7954f6e027",
-      "title": "1111111111111111111111",
-      "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "111 minutes",
-      "ingredients": [
-        {
-          "quantity": "1",
-          "name": " beef roast",
-          "type": "Meat"
-        },
-        {
-          "quantity": "1 package",
-          "name": "brown gravy mix",
-          "type": "Baking"
-        },
-        {
-          "quantity": "1 package",
-          "name": "dried Italian salad dressing mix",
-          "type": "Condiments"
-        },
-        {
-          "quantity": "1 package",
-          "name": "dry ranch dressing mix",
-          "type": "Condiments"
-        },
-        {
-          "quantity": "1/2 cup",
-          "name": "water",
-          "type": "Drinks"
-        }
-      ],
-      "directions": [
-        "Place beef roast in crock pot.",
-        "Mix the dried mixes together in a bowl and sprinkle over the roast.",
-        "Pour the water around the roast.",
-        "Cook on low for 7-9 hours."
-      ],
-      "image": "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg",
-      "originalURL": "http://www.food.com/recipe/to-die-for-crock-pot-roast-27208"
-    },
-    {
-      "id": "Rh8vVzH9BoYxEZiGpvOZnBNdls8aK7",
-      "title": "1111111111111111111111",
-      "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "111 minutes",
-      "ingredients": [
-        {
-          "quantity": "1",
-          "name": " beef roast",
-          "type": "Meat"
-        },
-        {
-          "quantity": "1 package",
-          "name": "brown gravy mix",
-          "type": "Baking"
-        },
-        {
-          "quantity": "1 package",
-          "name": "dried Italian salad dressing mix",
-          "type": "Condiments"
-        },
-        {
-          "quantity": "1 package",
-          "name": "dry ranch dressing mix",
-          "type": "Condiments"
-        },
-        {
-          "quantity": "1/2 cup",
-          "name": "water",
-          "type": "Drinks"
-        }
-      ],
-      "directions": [
-        "Place beef roast in crock pot.",
-        "Mix the dried mixes together in a bowl and sprinkle over the roast.",
-        "Pour the water around the roast.",
-        "Cook on low for 7-9 hours."
-      ],
-      "image": "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg",
-      "originalURL": "http://www.food.com/recipe/to-die-for-crock-pot-roast-27208"
-    },
-    {
       "id": "iTLMaeH9hptRw0tpczXUzKNDaamKS2",
       "date": "1602233361601",
       "directions": [
@@ -622,125 +540,6 @@
         }
       ],
       "timetocook": ""
-    },
-    {
-      "id": "wBvbUJ8pAuxj4PdfGuyPrDkFuLLx4j",
-      "date": "1602532769532",
-      "directions": [
-        ""
-      ],
-      "title": "gfdgfdsg",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "",
-          "quantity": "",
-          "type": ""
-        }
-      ],
-      "timetocook": ""
-    },
-    {
-      "id": "gbqxN8bNnlsNVWNyeU2dVvbR8KRCLF",
-      "date": "1602532943021",
-      "directions": [
-        ""
-      ],
-      "title": "jkuygkiyu",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "",
-          "quantity": "",
-          "type": ""
-        }
-      ],
-      "timetocook": ""
-    },
-    {
-      "id": "RQiT8CEurlR5zzS8mheMI1BFr75oCe",
-      "date": "1602532987924",
-      "directions": [
-        ""
-      ],
-      "title": "hgjhgjh",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "",
-          "quantity": "",
-          "type": ""
-        }
-      ],
-      "timetocook": ""
-    },
-    {
-      "id": "ONYhCpH3Nqljx8Ihc0DglxR7soE3Rt",
-      "date": "Mon Oct 12 2020",
-      "directions": [
-        "htgfdhtrh"
-      ],
-      "title": "hgfdhtdh",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "hgfdh",
-          "quantity": "hgfdh",
-          "type": "fruits"
-        }
-      ],
-      "timetocook": ""
-    },
-    {
-      "id": "R1TsBIp5Ejt8cpsHM7EaUJM3oWl935",
-      "date": "Tue Oct 13 2020",
-      "directions": [
-        "gfdgdf"
-      ],
-      "title": "fgsdfgsfd",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "fdgvf",
-          "quantity": "fdvg",
-          "type": "fruits"
-        }
-      ],
-      "timetocook": ""
-    },
-    {
-      "id": "BP07avLiRH8e5zNbfayNIpGIWTgzhF",
-      "date": "Tue Oct 13 2020",
-      "directions": [
-        "fdgdfg"
-      ],
-      "title": "fgfhgfhgf",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "gfd",
-          "quantity": "gvfd",
-          "type": "vegetables"
-        }
-      ],
-      "timetocook": ""
-    },
-    {
-      "id": "5GXflgxoOyz15ybTEjaF6lhWUyeLBh",
-      "date": "Fri Oct 16 2020",
-      "directions": [
-        ""
-      ],
-      "title": "ann",
-      "image": "ann",
-      "ingredients": [
-        {
-          "name": "",
-          "quantity": "",
-          "type": ""
-        }
-      ],
-      "timetocook": "ann"
     },
     {
       "id": "23QcLTjaeeaDC6apSEGmPdOTFxJKQG",
@@ -812,40 +611,6 @@
       "timetocook": ""
     },
     {
-      "id": "kAHCbChv4a4lO91DCH5vwEs43D5EIA",
-      "date": "Mon Oct 19 2020",
-      "directions": [
-        ""
-      ],
-      "title": "ann ann",
-      "image": "2",
-      "ingredients": [
-        {
-          "name": "",
-          "quantity": "",
-          "type": ""
-        }
-      ],
-      "timetocook": "2"
-    },
-    {
-      "id": "D9XbPqD6a6jKfiSEzktm6FbJeridsV",
-      "date": "Mon Oct 19 2020",
-      "directions": [
-        "123123123132132123"
-      ],
-      "title": "tygtrfyhfdhjghfj",
-      "image": "",
-      "ingredients": [
-        {
-          "name": "",
-          "quantity": "",
-          "type": ""
-        }
-      ],
-      "timetocook": ""
-    },
-    {
       "id": "j3r394BcFabUtQvmo3nbAgq8VnyXRP",
       "date": "Mon Oct 19 2020",
       "directions": [
@@ -863,27 +628,9 @@
       "timetocook": "5 min"
     },
     {
-      "id": "OMxqROAN048TAm6GbF9lVDgZt6Eu0O",
-      "date": "Mon Oct 19 2020",
-      "directions": [
-        "fedsgfrgtrhtrgtrgregrtgfreyretretrygtrhtgtgrtgt"
-      ],
-      "title": "rfefsrdf",
-      "image": "",
-      "ingredients": [
-        {
-          "quantity": "f",
-          "name": "dfff",
-          "type": "vegetables"
-        }
-      ],
-      "timetocook": "aaaaaaaaaaaaaaaa"
-    },
-    {
       "id": "dyeqkT0N3mns1lIsH0NnU49UGyuUHl",
-      "date": "Mon Oct 19 2020",
+      "date": "Tue Oct 20 2020",
       "directions": [
-        "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?",
         "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?",
         "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?"
       ],

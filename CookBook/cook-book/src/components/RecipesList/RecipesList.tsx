@@ -1,34 +1,27 @@
 import React from "react";
-import { useQuery, QueryCache, ReactQueryCacheProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query-devtools";
+import { useQuery } from "react-query";
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipesListView from './RecipesListView'
 import RecipesGridSkeleton from "../RecipeSkeleton/RecipesGridSkeleton";
-
-const queryCache = new QueryCache();
-
-const url = "http://localhost:3000/recipes";
+import { Constants } from "../../constants";
 
 export default function RecipesList() {
-    const { isLoading, error, data } = useQuery<Array<RecipeModel>>("", async () => {
-        const resultFetch = await fetch(url);
+    const { isLoading, error, data } = useQuery<Array<RecipeModel>>("recipes", async () => {
+        const resultFetch = await fetch(`${Constants.url}/recipes/`);
         const resultJson = await resultFetch.json();
         return resultJson;
     });
-    var retValue = null;
+    
     if (error) {
         const errorMessage = error as { message: string };
-        retValue = <p>{"An error has occurred: " + errorMessage?.message}</p>;
+        return <p>{"An error has occurred: " + errorMessage?.message}</p>;
     }
-    if (isLoading)
-        retValue = <RecipesGridSkeleton count={4} />;
 
-    if (!retValue)
-        retValue = <RecipesListView recipes={data} />
+    if (isLoading){
+        return <RecipesGridSkeleton count={4} />;
+    }
+
     return (
-        <ReactQueryCacheProvider queryCache={queryCache}>
-            {retValue}
-            <ReactQueryDevtools initialIsOpen />
-        </ReactQueryCacheProvider>
+        <RecipesListView recipes={data} />
     );
 }

@@ -19,16 +19,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function mapIngredientsTypes() {
     const values = Object.values(IngredientType).filter(x => typeof x === 'string');
-    let ret = [<MenuItem value=""><em>None</em></MenuItem>];
+    let ret = [<MenuItem key={"-1"} value=""><em>None</em></MenuItem>];
     for (let i = 0; i < values.length; i++) {
         ret.push(
-            <MenuItem key={values[i].toString()} value={values[i].toString()}><em>{values[i].toString()}</em></MenuItem>
+            <MenuItem key={values[i].toString()} value={values[i].toString()}>
+                <em>{values[i].toString()}</em>
+            </MenuItem>
         );
     }
     return (ret);
 }
 
-interface Props {
+interface IngredientFormProps {
     quantity:string,
     name:string,
     type:string,
@@ -36,7 +38,7 @@ interface Props {
     onDeleteClick: () => void;
 }
 
-export default function IngredientForm(props: Props) {
+export default function IngredientForm(props: IngredientFormProps) {
     const { onDeleteClick } = props;
 
     const classes = useStyles();
@@ -52,7 +54,7 @@ export default function IngredientForm(props: Props) {
                                 label="Name"
                                 variant="outlined"
                                 helperText={meta.error}
-                                {...field} error={!!meta.error}
+                                {...field} error={!!meta.error && meta.touched}
                             />
                         )}
                     </Field>
@@ -65,7 +67,7 @@ export default function IngredientForm(props: Props) {
                                 label="Count"
                                 variant="outlined"
                                 helperText={meta.error}
-                                {...field} error={!!meta.error}
+                                {...field} error={!!meta.error && meta.touched}
                             />
                         )}
                     </Field>
@@ -79,7 +81,7 @@ export default function IngredientForm(props: Props) {
                                 select
                                 label="Type"
                                 helperText={meta.error}
-                                {...field} error={!!meta.error}
+                                {...field} error={!!meta.error && meta.touched}
                             >
                                 {mapIngredientsTypes()}
                             </TextField>
