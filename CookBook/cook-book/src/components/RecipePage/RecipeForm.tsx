@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
         listItem: {
             paddingLeft: "0",
         },
+        listBlockWithButtonPlus: {
+            padding: "8px",
+        },
     }),
 );
 
@@ -205,7 +208,7 @@ export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeMode
                                 <FieldArray name="ingredients"
                                     render={
                                         (ingredientsArrayHelpers) => (
-                                            <Grid container spacing={2} justify="center" alignItems="center" >
+                                            <Grid className={classes.listBlockWithButtonPlus} container justify="center" alignItems="center" >
                                                 <Grid item xs={1} />
                                                 <Grid item xs={10}>
                                                     <fieldset>
@@ -245,7 +248,7 @@ export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeMode
                                 <FieldArray name="steps"
                                     render={
                                         (stepsArrayHelpers) => (
-                                            <Grid container spacing={2} justify="center" alignItems="center" >
+                                            <Grid className={classes.listBlockWithButtonPlus} container justify="center" alignItems="center" >
                                                 <Grid item xs={1} />
                                                 <Grid item xs={10}>
                                                     <fieldset >

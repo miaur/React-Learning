@@ -1,5 +1,5 @@
 import React from 'react';
-import Recipe from './index'
+import RecipeCard from './index'
 
 import { storiesOf } from '@storybook/react';
 import { RecipeModel } from '../../models/RecipeModel';
@@ -45,4 +45,4 @@ const recipe: RecipeModel =
 }
 
 
-storiesOf('Recipe', module).add('Default', () => <Recipe recipe={recipe} />)
+storiesOf('Recipe', module).add('Default', () => <RecipeCard recipe={recipe} />)

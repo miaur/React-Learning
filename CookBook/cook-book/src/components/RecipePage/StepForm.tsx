@@ -39,7 +39,7 @@ export default function StepForm(props: StepProps) {
                                 variant="outlined"
                                 label={`Step ${props.index + 1}. `}
                                 helperText={meta.error}
-                                {...field} error={!!meta.error}
+                                {...field} error={!!meta.error && meta.touched}
                             />
                         )}
                     </Field>

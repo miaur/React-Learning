@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom';
 
-import { CardMedia, Paper } from '@material-ui/core';
+import { CardMedia, List, ListItem, ListItemSecondaryAction, ListItemText, Paper } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
 import { RecipeModel } from '../../models/RecipeModel';
@@ -56,30 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingLeft: "10%",
         },
         //===Ingredients
-        list: {
-            listStyle: "none",
+        listOfIngredients: {
+            width: '100%',
         },
-        ingredientsLi: {
-            marginBottom: "16px", //as in Typography
-            lineHeight: "1",
-            borderBottom: "double",
-            '& span:nth-child(odd)': {
-                paddingRight: "6px",
-            },
-            '& span:nth-child(even)': {
-                float: "right",
-                // paddingLeft: "6px",
-                color: "brown",
-            },
-            '&:first-letter': {
-                textTransform: "uppercase",
-            },
+        ingredientsListItem: {
+            borderBottom: "solid rgba(0, 0, 0, 0.3)",
         },
-        ingredientsSpan: {
+        ingredientsItemText: {
             background: theme.palette.grey['50'],
-            position: "relative",
-            bottom: "-7px",
-
         },
         //===Steps
         stepsUl: {
@@ -107,18 +91,23 @@ const useStyles = makeStyles((theme: Theme) =>
                 content: 'counter(li)',
             },
         },
+        footer: {
+            height: "20px"
+        },
     }),
 );
 
 export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
     const classes = useStyles();
 
-    const ingredientsLi = recipe.ingredients.map(
+    const ingredientsList = recipe.ingredients.map(
         (ingredient, index) =>
-            <li key={index} className={classes.ingredientsLi}>
-                <span className={classes.ingredientsSpan}>{ingredient.name}</span>
-                <span className={classes.ingredientsSpan}>{ingredient.quantity}</span>
-            </li>);
+            <ListItem key={index} className={classes.ingredientsListItem}>
+                <ListItemText className={classes.ingredientsItemText} primary={ingredient.name} />
+                <ListItemSecondaryAction>
+                    <ListItemText className={classes.ingredientsItemText} primary={ingredient.quantity} />
+                </ListItemSecondaryAction>
+            </ListItem >);
 
     const stepsLi = recipe.directions.map(
         (step, index) =>
@@ -145,7 +134,9 @@ export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
                     Ingredients:
                 </Typography>
                 <Typography className={classes.listContainer} >
-                    <span><ul className={classes.list}>{ingredientsLi}</ul></span>
+                    <List className={classes.listOfIngredients}>
+                        {ingredientsList}
+                    </List>
                 </Typography>
                 <Typography paragraph />
                 <Typography className={classes.subtitle} paragraph>
@@ -154,7 +145,7 @@ export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
                 <Typography className={classes.listContainer} >
                     <span><ol className={classes.stepsUl}>{stepsLi}</ol></span>
                 </Typography>
-                <Typography paragraph />
+                <Typography paragraph className={classes.footer} />
             </Paper>
 
         </div>

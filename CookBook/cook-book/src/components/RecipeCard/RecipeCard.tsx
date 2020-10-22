@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             maxWidth: 345,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
         },
         media: {
             height: 0,
@@ -36,6 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         expandOpen: {
             transform: 'rotate(180deg)',
+        },
+        cardFooter: {
+            // display: "flex",
+            // justifyContent: "space-between",
         },
     }),
 );
@@ -64,7 +72,7 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
     return (
         <Card className={classes.root}>
             <CardHeader
-                action={<RecipeCardMenu recipeId={recipe.id}/>}
+                action={<RecipeCardMenu recipeId={recipe.id} />}
                 title={<Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>}
                 subheader={(new Date(recipe.date)).toDateString()}
             />
@@ -81,14 +89,14 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
                 <Typography paragraph>Ingredients: </Typography>
                 {ingredients}
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions className={classes.cardFooter} disableSpacing>
                 <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
                 </IconButton>
-                <IconButton
+                {/* <IconButton
                     //todo: expand steps
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -98,7 +106,7 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
                     aria-label="show more"
                 >
                     <ExpandMoreIcon />
-                </IconButton>
+                </IconButton> */}
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
