@@ -20,33 +20,34 @@ const useStyles = makeStyles((theme: Theme) =>
 function mapIngredientsTypes() {
     const values = Object.values(IngredientType).filter(x => typeof x === 'string');
     let ret = [<MenuItem key={"-1"} value=""><em>None</em></MenuItem>];
-    for (let i = 0; i < values.length; i++) {
-        ret.push(
-            <MenuItem key={values[i].toString()} value={values[i].toString()}>
-                <em>{values[i].toString()}</em>
-            </MenuItem>
-        );
-    }
+    let arr = values.map(value => 
+        <MenuItem key={value} value={value}>
+            <em>{value}</em>
+        </MenuItem>
+    );
+    ret.concat(arr);
     return (ret);
 }
 
 interface IngredientFormProps {
-    quantity:string,
-    name:string,
-    type:string,
+    quantity: string,
+    name: string,
+    type: string,
     index: number,
     onDeleteClick: () => void;
 }
 
 export default function IngredientForm(props: IngredientFormProps) {
     const { onDeleteClick } = props;
-
     const classes = useStyles();
+
+    const fieldIngrName = `ingredients[${props.index}]`;
+   
     return (
         <ListItem key={props.index}>
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item xs>
-                    <Field name={`ingredients[${props.index}].ingridientName`}>
+                    <Field name={`${fieldIngrName}.name`}>
                         {({ field, meta }: any) => (
                             <TextField className={classes.singleTextfield}
                                 id="outlined-required"
@@ -60,7 +61,7 @@ export default function IngredientForm(props: IngredientFormProps) {
                     </Field>
                 </Grid>
                 <Grid item xs>
-                    <Field name={`ingredients[${props.index}].ingridientCount`}>
+                    <Field name={`${fieldIngrName}.quantity`}>
                         {({ field, meta }: any) => (
                             <TextField required className={classes.singleTextfield}
                                 id="outlined-required"
@@ -73,7 +74,7 @@ export default function IngredientForm(props: IngredientFormProps) {
                     </Field>
                 </Grid>
                 <Grid item xs>
-                    <Field name={`ingredients[${props.index}].ingridientType`}>
+                    <Field name={`${fieldIngrName}.type`}>
                         {({ field, meta }: any) => (
                             <TextField required className={classes.singleTextfield}
                                 id="outlined-required"

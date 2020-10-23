@@ -12,12 +12,11 @@ import { InsertRecipe, UpdateRecipe } from '../RecepieControl/RecepieControl';
 import { RecipeModel } from '../../models/RecipeModel';
 
 import { Field, FieldArray, Form, Formik } from 'formik';
-import { validationSchema } from './RPFormikValidation'
+import { initialFormikvalues, validationSchema } from './RPFormikValidation'
 import StepForm from './StepForm';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        //===Main
         mainPaper: {
             position: 'relative',
             backgroundColor: theme.palette.grey['50'],
@@ -33,21 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
         singleTextfield: {
             width: "83%",
         },
-        ul: {
-            listStyle: "none",
-            counterReset: "li",
-        },
-        stepsLi: {
-            paddingBottom: "1%",
-        },
-        stepTextField: {
-            width: "94%",
-        },
         listItem: {
             paddingLeft: "0",
         },
         listBlockWithButtonPlus: {
             padding: "8px",
+        },
+        listLabel: {
+            color: "grey",
         },
     }),
 );
@@ -62,40 +54,15 @@ export function makeRandomKey(length: number) {
     return result;
 }
 
-interface FormikRecipeValues {
-    ingridientName: string,
-    ingridientCount: string,
-    ingridientType: string,
-}
-
 export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeModel }) {
-    let recipeToEditId = "0";
-    let initialRecipeToEditvalues = {
-        id: recipeToEditId,
-        title: "",
-        ingredients: [{ ingridientName: "", ingridientCount: "", ingridientType: "" }],
-        steps: [""],
-        date: "",
-        image: "",
-        timetocook: ""
-    };
+    const initialRecipeToEditvalues = initialFormikvalues;
     if (recipeToEdit) {
-        recipeToEditId = recipeToEdit.id;
         initialRecipeToEditvalues.id = recipeToEdit.id;
         initialRecipeToEditvalues.title = recipeToEdit.title;
         initialRecipeToEditvalues.steps = recipeToEdit.directions;
         initialRecipeToEditvalues.image = recipeToEdit.image;
         initialRecipeToEditvalues.timetocook = recipeToEdit.timetocook;
-        let ingrs: Array<FormikRecipeValues> = [];
-        recipeToEdit.ingredients.forEach(i => {
-            let ingr = {
-                ingridientName: i.name,
-                ingridientCount: i.quantity,
-                ingridientType: i.type
-            }
-            ingrs.push(ingr);
-        });
-        initialRecipeToEditvalues.ingredients = ingrs;
+        initialRecipeToEditvalues.ingredients = recipeToEdit.ingredients;
     }
 
     const classes = useStyles();
@@ -105,10 +72,10 @@ export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeMode
     const valueRefForTimeToCook = useRef<HTMLInputElement>();
     const valueRefForImageUrl = useRef<HTMLInputElement>();
 
-    const createRecipeObject = (title: string, directions: Array<string>, ingredients: Array<IngredientModel>, date?:string) => {
-        let recipeObject: RecipeModel = {
-            id: makeRandomKey(30),
-            date: (date? date: new Date().toDateString()),
+    const createRecipeObject = (title: string, directions: Array<string>, ingredients: Array<IngredientModel>, date?: string, id?: string) => {
+        const recipeObject: RecipeModel = {
+            id: id ? id : makeRandomKey(30),
+            date: (date ? date : new Date().toDateString()),
             directions: directions,
             title: title,
             image: valueRefForImageUrl.current ? valueRefForImageUrl.current.value : '',
@@ -119,181 +86,158 @@ export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeMode
     }
 
     return (
-        <Paper className={classes.mainPaper} >
-            <Formik
-                onSubmit={(values) => {
-                    let ingredientsValues = new Array<IngredientModel>();
-                    values.ingredients.forEach(i => {
-                        let ingr: IngredientModel = {
-                            quantity: i.ingridientCount,
-                            name: i.ingridientName,
-                            type: i.ingridientType
-                        }
-                        ingredientsValues.push(ingr);
-                    });
-                    if (!recipeToEditId || recipeToEditId === '0') {
-                        let newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, ingredientsValues);
-                        let resultParams = InsertRecipe(newRecipeToInsert);
-                        resultParams.then(() => {
-                            setAlertDialogState({ text: "New Recipe inserted.", open: true });
-                        }).catch((error) => {
-                            const errorMessage = error as { message: string };
-                            let alertMessage = "An error has occurred: " + errorMessage?.message;
+        <>
+            <Paper className={classes.mainPaper} >
+                <Formik
+                    onSubmit={async (values) => {
+                        try {
+                            if (!recipeToEdit) {
+                                const newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, values.ingredients);
+                                await InsertRecipe(newRecipeToInsert);
+                                setAlertDialogState({ text: "New Recipe inserted.", open: true });
+                            } else {
+                                const newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, values.ingredients, values.date, recipeToEdit.id);
+                                await UpdateRecipe(newRecipeToInsert);
+                                setAlertDialogState({ text: "Recipe updated.", open: true });
+                            }
+
+                        } catch (error) {
+                            const alertMessage = "An error has occurred: " + (error as { message: string })?.message;
                             setAlertDialogState({ alertTitle: 'Error', text: alertMessage, open: true });
-                        });
-                    }
-                    else {
-                        let newRecipeToInsert: RecipeModel = createRecipeObject(values.title, values.steps, ingredientsValues, values.date);
-                        newRecipeToInsert.id = recipeToEditId;
-                        let resultParams = UpdateRecipe(newRecipeToInsert);
-                        resultParams.then(() => {
-                            setAlertDialogState({ text: "Recipe updated.", open: true });
-                        }).catch((error) => {
-                            const errorMessage = error as { message: string };
-                            let alertMessage = "An error has occurred: " + errorMessage?.message;
-                            setAlertDialogState({ alertTitle: 'Error', text: alertMessage, open: true });
-                        });
-                    }
-                    console.log("===OnSubmit done.===");
-                }}
-                initialValues={initialRecipeToEditvalues}
-                validationSchema={validationSchema}
-                render={({ values }) => (
-                    <Form>
-                        <div className={classes.root} >
-                             <Grid container spacing={2} justify="center" alignItems="center">
-                                {/* *** Title *** */}
-                                <Grid item xs={12}>
-                                    <Field name={'title'}>
-                                        {({ field, meta }: any) => (
-                                            <TextField className={classes.singleTextfield}
-                                                required
-                                                id="outlined-required"
-                                                label="Title"
-                                                variant="outlined"
-                                                helperText={meta.error}
-                                                {...field} error={!!meta.error && meta.touched} />
-                                        )}
-                                    </Field>
-                                </Grid>
-                                {/* *** Time to cook *** */}
-                                <Grid item xs={12}>
-                                    <Field name={'timetocook'}>
-                                        {({ field, meta }: any) => (
-                                            <TextField className={classes.singleTextfield}
-                                                id="outlined-required"
-                                                label="Time to cook"
-                                                variant="outlined"
-                                                inputRef={valueRefForTimeToCook}
-                                                {...field} error={!!meta.error && meta.touched}
-                                            />
-                                        )}
-                                    </Field>
-                                </Grid>
-                                {/* *** Image *** */}
-                                <Grid item xs={12}>
-                                    <Field name={'image'}>
-                                        {({ field, meta }: any) => (
-                                            <TextField className={classes.singleTextfield}
-                                                id="outlined-required"
-                                                label="Image url"
-                                                variant="outlined"
-                                                inputRef={valueRefForImageUrl}
-                                                {...field} error={!!meta.error && meta.touched}
-                                            />
-                                        )}
-                                    </Field>
-                                </Grid>
-                                {/* *** Ingredients *** */}
-                                <FieldArray name="ingredients"
-                                    render={
-                                        (ingredientsArrayHelpers) => (
-                                            <Grid className={classes.listBlockWithButtonPlus} container justify="center" alignItems="center" >
-                                                <Grid item xs={1} />
-                                                <Grid item xs={10}>
-                                                    <fieldset>
-                                                        <legend style={{ "color": "grey" }}>Ingredients*:</legend>
-                                                        <div>
-                                                            <List className={classes.listItem}>
-                                                                {values.ingredients.map((i, index) =>
-                                                                    <IngredientForm
-                                                                        key={index}
-                                                                        index={index}
-                                                                        quantity={i.ingridientCount}
-                                                                        name={i.ingridientName}
-                                                                        type={i.ingridientType}
+                        };
+                    }}
+                    initialValues={initialRecipeToEditvalues}
+                    validationSchema={validationSchema}
+                    render={({ values }) => (
+                        <Form>
+                            <div className={classes.root} >
+                                <Grid container spacing={2} justify="center" alignItems="center">
+                                    {/* *** Title *** */}
+                                    <Grid item xs={12}>
+                                        <Field name={'title'}>
+                                            {({ field, meta }: any) => (
+                                                <TextField className={classes.singleTextfield}
+                                                    required
+                                                    id="outlined-required"
+                                                    label="Title"
+                                                    variant="outlined"
+                                                    helperText={meta.error}
+                                                    {...field} error={!!meta.error && meta.touched} />
+                                            )}
+                                        </Field>
+                                    </Grid>
+                                    {/* *** Time to cook *** */}
+                                    <Grid item xs={12}>
+                                        <Field name={'timetocook'}>
+                                            {({ field, meta }: any) => (
+                                                <TextField className={classes.singleTextfield}
+                                                    id="outlined-required"
+                                                    label="Time to cook"
+                                                    variant="outlined"
+                                                    inputRef={valueRefForTimeToCook}
+                                                    {...field} error={!!meta.error && meta.touched}
+                                                />
+                                            )}
+                                        </Field>
+                                    </Grid>
+                                    {/* *** Image *** */}
+                                    <Grid item xs={12}>
+                                        <Field name={'image'}>
+                                            {({ field, meta }: any) => (
+                                                <TextField className={classes.singleTextfield}
+                                                    id="outlined-required"
+                                                    label="Image url"
+                                                    variant="outlined"
+                                                    inputRef={valueRefForImageUrl}
+                                                    {...field} error={!!meta.error && meta.touched}
+                                                />
+                                            )}
+                                        </Field>
+                                    </Grid>
+                                    {/* *** Ingredients *** */}
+                                    <FieldArray name="ingredients"
+                                        render={
+                                            (ingredientsArrayHelpers) => (
+                                                <Grid className={classes.listBlockWithButtonPlus} container justify="center" alignItems="center" >
+                                                    <Grid item xs={1} />
+                                                    <Grid item xs={10}>
+                                                        <fieldset>
+                                                            <legend className={classes.listLabel}>Ingredients*:</legend>
+                                                            <div>
+                                                                <List className={classes.listItem}>
+                                                                    {values.ingredients.map((ingredient, index) =>
+                                                                        <IngredientForm
+                                                                            key={index}
+                                                                            index={index}
+                                                                            quantity={ingredient.quantity}
+                                                                            name={ingredient.name}
+                                                                            type={ingredient.type}
+                                                                            onDeleteClick={() => {
+                                                                                ingredientsArrayHelpers.remove(index);
+                                                                            }}
+                                                                        />
+
+
+                                                                    )}
+                                                                </List>
+                                                            </div>
+                                                        </fieldset>
+                                                    </Grid>
+                                                    <Grid item xs={1}>
+                                                        <Button variant="contained" color="primary" onClick={
+                                                            () => {
+                                                                ingredientsArrayHelpers.push({ name: "", quantity: "", type: "" });
+                                                            }
+                                                        }><AddCircleOutlineTwoToneIcon /></Button>
+                                                    </Grid>
+                                                </Grid>
+                                            )
+                                        } />
+                                    {/* *** Steps *** */}
+                                    <FieldArray name="steps"
+                                        render={
+                                            (stepsArrayHelpers) => (
+                                                <Grid className={classes.listBlockWithButtonPlus} container justify="center" alignItems="center" >
+                                                    <Grid item xs={1} />
+                                                    <Grid item xs={10}>
+                                                        <fieldset >
+                                                            <legend className={classes.listLabel}>Steps*:</legend>
+                                                            <List>
+                                                                {values.steps.map((step, index) =>
+                                                                    <StepForm index={index} key={index} stepValue={step}
                                                                         onDeleteClick={() => {
-                                                                            ingredientsArrayHelpers.remove(index);
+                                                                            stepsArrayHelpers.remove(index);
                                                                         }}
                                                                     />
-
-
                                                                 )}
                                                             </List>
-                                                        </div>
-                                                    </fieldset>
+                                                        </fieldset>
+                                                    </Grid>
+                                                    <Grid item xs={1}>
+                                                        <Button variant="contained" color="primary" onClick={
+                                                            () => {
+                                                                stepsArrayHelpers.push("");
+                                                            }}><AddCircleOutlineTwoToneIcon /></Button>
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={1}>
-                                                    <Button variant="contained" color="primary" onClick={
-                                                        () => {
-                                                            ingredientsArrayHelpers.push({ ingridientName: "", ingridientCount: "", ingridientType: "" });
-                                                        }
-                                                    }><AddCircleOutlineTwoToneIcon /></Button>
-                                                </Grid>
-                                            </Grid>
-                                        )
-                                    } />
+                                            )
+                                        } />
 
-                                {/* *** Steps *** */}
-                                <FieldArray name="steps"
-                                    render={
-                                        (stepsArrayHelpers) => (
-                                            <Grid className={classes.listBlockWithButtonPlus} container justify="center" alignItems="center" >
-                                                <Grid item xs={1} />
-                                                <Grid item xs={10}>
-                                                    <fieldset >
-                                                        <legend style={{ "color": "grey" }}>Steps*:</legend>
-
-                                                        <List className={classes.ul}>
-                                                            {values.steps.map((s, index) =>
-                                                                <StepForm index={index} key={index} stepValue={s}
-                                                                    onDeleteClick={() => {
-                                                                        // setSteps(steps.filter((item) => item.stepKey !== stepKey))
-                                                                        stepsArrayHelpers.remove(index);
-                                                                    }}
-                                                                />
-                                                            )}
-                                                        </List>
-
-                                                    </fieldset>
-                                                </Grid>
-                                                <Grid item xs={1}>
-                                                    <Button variant="contained" color="primary" onClick={
-                                                        () => {
-                                                            stepsArrayHelpers.push("");
-                                                            // setSteps(steps.concat([step]))
-                                                        }}><AddCircleOutlineTwoToneIcon /></Button>
-                                                </Grid>
-                                            </Grid>
-                                        )
-                                    } />
-
-                                {/* Save recipe into db button: */}
-                                <Grid item xs={12}>
-                                    <Button variant="contained" color="primary" type="submit">Save</Button>
+                                    {/* Save recipe into db button: */}
+                                    <Grid item xs={12}>
+                                        <Button variant="contained" color="primary" type="submit">Save</Button>
+                                    </Grid>
+                                    <Grid item xs={12} />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <AlertDialog alertDialogState={alertDialogState}
-                                        onClose={() => {
-                                            setAlertDialogState({ open: false })
-                                        }} />
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Form>
-                )}
-            />
-        </Paper >
-
+                            </div>
+                        </Form>
+                    )}
+                />
+            </Paper >
+            <AlertDialog alertDialogState={alertDialogState}
+                onClose={() => {
+                    setAlertDialogState({ open: false })
+                }} />
+        </>
     );
 }

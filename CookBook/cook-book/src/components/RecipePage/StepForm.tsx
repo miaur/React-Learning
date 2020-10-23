@@ -5,9 +5,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        //===Main
-        stepsLi: {
-            paddingBottom: "1%",
+        stepsListItem: {
+            paddingBottom: theme.spacing(1),
         },
         stepTextField: {
             width: "94%",
@@ -26,7 +25,7 @@ export default function StepForm(props: StepProps) {
     const { onDeleteClick } = props;
 
     return (
-        <ListItem key={props.index} className={classes.stepsLi}>
+        <ListItem key={props.index} className={classes.stepsListItem}>
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item xs>
                     <Field name={`steps[${props.index}]`} >
@@ -47,7 +46,7 @@ export default function StepForm(props: StepProps) {
                 {/* Delete - cancel button */}
                 <Grid item xs={1}>
                     <Button onClick={() => {
-                        onDeleteClick?.();
+                        onDeleteClick();
                     }}>
                         <DeleteIcon />
                     </Button>

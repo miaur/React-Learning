@@ -1,21 +1,14 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom';
-
 import { CardMedia, List, ListItem, ListItemSecondaryAction, ListItemText, Paper } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
 import { RecipeModel } from '../../models/RecipeModel';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
-type RecipePageProps = {} & RouteComponentProps<{
-    id: string
-}>;
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         //===Main
         mainPaper: {
-            // fontFamily: "'Marck Script', cursive",
             position: 'relative',
             backgroundColor: theme.palette.grey['50'],
             color: theme.palette.common.white,
@@ -66,11 +59,10 @@ const useStyles = makeStyles((theme: Theme) =>
             background: theme.palette.grey['50'],
         },
         //===Steps
-        stepsUl: {
-            listStyle: "none",
+        stepsList: {
             counterReset: "li",
         },
-        stepsLi: {
+        stepsListItem: {
             '&:first-letter': {
                 textTransform: "uppercase",
             },
@@ -92,7 +84,10 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         footer: {
-            height: "20px"
+            height: theme.spacing(4)
+        },
+        spaceBetweentElements: {
+            height: theme.spacing(3),
         },
     }),
 );
@@ -101,26 +96,27 @@ export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
     const classes = useStyles();
 
     const ingredientsList = recipe.ingredients.map(
-        (ingredient, index) =>
-            <ListItem key={index} className={classes.ingredientsListItem}>
+        (ingredient) =>
+            <ListItem key={ingredient.name} className={classes.ingredientsListItem}>
                 <ListItemText className={classes.ingredientsItemText} primary={ingredient.name} />
                 <ListItemSecondaryAction>
                     <ListItemText className={classes.ingredientsItemText} primary={ingredient.quantity} />
                 </ListItemSecondaryAction>
             </ListItem >);
 
-    const stepsLi = recipe.directions.map(
+    const stepsList = recipe.directions.map(
         (step, index) =>
-            <li key={index} className={classes.stepsLi}>
-                <span>{step}</span>
-            </li>);
+            <ListItem key={index} className={classes.stepsListItem}>
+                {step}
+            </ListItem>);
     return (
         <div>
             <Paper className={classes.mainPaper} >
+            <Typography className={classes.spaceBetweentElements} />
                 <Typography className={classes.header} variant="h3" component="h3" gutterBottom>
                     {recipe.title}
                 </Typography>
-                <Typography paragraph />
+                <Typography className={classes.spaceBetweentElements} />
                 <Typography className={classes.header} paragraph>
                     <AccessTimeIcon fontSize={"large"} /> <span style={{ verticalAlign: "50%" }}>{recipe.timetocook}</span>
                 </Typography>
@@ -129,7 +125,7 @@ export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
                     image={recipe.image}
                     title={recipe.title}
                 />
-                <Typography paragraph />
+                <Typography className={classes.spaceBetweentElements} />
                 <Typography className={classes.subtitle} paragraph>
                     Ingredients:
                 </Typography>
@@ -138,14 +134,14 @@ export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
                         {ingredientsList}
                     </List>
                 </Typography>
-                <Typography paragraph />
+                <Typography className={classes.spaceBetweentElements} />
                 <Typography className={classes.subtitle} paragraph>
                     Steps:
                 </Typography>
                 <Typography className={classes.listContainer} >
-                    <span><ol className={classes.stepsUl}>{stepsLi}</ol></span>
+                    <List className={classes.stepsList}>{stepsList}</List>
                 </Typography>
-                <Typography paragraph className={classes.footer} />
+                <Typography className={classes.footer} />
             </Paper>
 
         </div>

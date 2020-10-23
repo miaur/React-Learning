@@ -30,7 +30,7 @@ export default function RecipesListView({ recipes }: { recipes?: Array<RecipeMod
 
     return (
         <Grid container className={classes.root} spacing={2}>
-            <Grid container xs={12} justify="center">
+            <Grid container justify="center">
                 <FormControlLabel
                     control={
                         <Checkbox
