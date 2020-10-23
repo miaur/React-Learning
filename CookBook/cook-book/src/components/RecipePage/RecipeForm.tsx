@@ -107,8 +107,8 @@ export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeMode
                         };
                     }}
                     initialValues={initialRecipeToEditvalues}
-                    validationSchema={validationSchema}
-                    render={({ values }) => (
+                    validationSchema={validationSchema}>
+                    {({ values }) =>
                         <Form>
                             <div className={classes.root} >
                                 <Grid container spacing={2} justify="center" alignItems="center">
@@ -231,8 +231,8 @@ export default function RecipeForm({ recipeToEdit }: { recipeToEdit?: RecipeMode
                                 </Grid>
                             </div>
                         </Form>
-                    )}
-                />
+                    }
+                </Formik>
             </Paper >
             <AlertDialog alertDialogState={alertDialogState}
                 onClose={() => {
