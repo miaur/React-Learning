@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -8,12 +7,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { RecipeModel } from '../../models/RecipeModel';
 import RecipeCardMenu from './RecipeCardMenu';
@@ -41,33 +39,37 @@ const useStyles = makeStyles((theme: Theme) =>
         expandOpen: {
             transform: 'rotate(180deg)',
         },
-        cardFooter: {
-            // display: "flex",
-            // justifyContent: "space-between",
-        },
     }),
 );
 
+export function getFavouriresList() {
+    let favoritesList: Array<string> = [];
+    let favorites = localStorage.getItem("favorites");
+    if (favorites) {
+        favoritesList = JSON.parse(favorites);
+    }
+    return favoritesList;
+}
+
+function handleFavoriteRecipe(recipeId: string) {
+    let favoritesList = getFavouriresList();
+    if (favoritesList.includes(recipeId))
+        favoritesList = favoritesList.filter((item) => item !== recipeId);
+    else
+        favoritesList.push(recipeId);
+
+    localStorage.setItem("favorites", JSON.stringify(favoritesList));
+}
+
 export default function Recipe({ recipe }: { recipe: RecipeModel }) {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    const [favorite, setFavorite] = useState(getFavouriresList().includes(recipe.id));
 
     const ingredientsList = recipe.ingredients.map(
         (ingredient, index) =>
             <li key={index}>{ingredient.name + " - " + ingredient.quantity}</li>
     );
-    const ingredients = <span><ul>{ingredientsList}</ul></span>;
-
-    const directions = <span><ul>{
-        recipe.directions.map(
-            (direction, index) =>
-                <li key={index}>Step {(index + 1) + " " + direction}</li>
-
-        )}</ul></span>;
+    const ingredients = <div><ul>{ingredientsList}</ul></div>;
 
     return (
         <Card className={classes.root}>
@@ -89,31 +91,18 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
                 <Typography paragraph>Ingredients: </Typography>
                 {ingredients}
             </CardContent>
-            <CardActions className={classes.cardFooter} disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
+            <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites"
+                    onClick={() => {
+                        handleFavoriteRecipe(recipe.id);
+                        setFavorite(!favorite);
+                    }}>
+                    {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
                 </IconButton>
-                {/* <IconButton
-                    //todo: expand steps
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                    })}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
-                </IconButton> */}
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>Directions:</Typography>
-                    {directions}
-                </CardContent>
-            </Collapse>
         </Card>
     );
 }
