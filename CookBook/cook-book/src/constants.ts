@@ -1,3 +1,3 @@
 export class Constants {
-    public static url: string = 'http://localhost:3000';
+  public static url: string = "http://localhost:3000";
 }

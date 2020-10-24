@@ -1,5 +1,5 @@
 export interface AlertDialogState {
-    alertTitle?: string,
-    text?: string,
-    open: boolean,
+  alertTitle?: string;
+  text?: string;
+  open: boolean;
 }

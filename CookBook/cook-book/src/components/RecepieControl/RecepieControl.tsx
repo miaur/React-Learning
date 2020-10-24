@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import { useQuery } from "react-query";
-import axios from 'axios'
+import axios from "axios";
 
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipesGridSkeleton from "../RecipeSkeleton/RecipesGridSkeleton";
@@ -9,43 +9,54 @@ import RecipePage from "../RecipePage";
 import RecipeForm from "../RecipePage/RecipeForm";
 import { Constants } from "../../constants";
 
-interface RecepieControlProps extends RouteComponentProps<{ id: string }>{};
+interface RecepieControlProps extends RouteComponentProps<{ id: string }> {}
 
 export function RecepieControl(props: RecepieControlProps) {
-    const { isLoading, error, data: recipe } = useQuery<RecipeModel, { message: string }>(`recipes/${props.match.params.id}`, async () => {
-        const resultFetch = await fetch(`${Constants.url}/recipes/${props.match.params.id}`);
-        const resultJson = await resultFetch.json();
-        return resultJson;
-    });
+  const { isLoading, error, data: recipe } = useQuery<
+    RecipeModel,
+    { message: string }
+  >(`recipes/${props.match.params.id}`, async () => {
+    const resultFetch = await fetch(
+      `${Constants.url}/recipes/${props.match.params.id}`
+    );
+    const resultJson = await resultFetch.json();
+    return resultJson;
+  });
 
-    if (error || !recipe) {
-        return <p>{"An error has occurred: " + error?.message}</p>;
-    }
+  if (error || !recipe) {
+    return <p>{"An error has occurred: " + error?.message}</p>;
+  }
 
-    if (isLoading){
-        return <RecipesGridSkeleton count={1} />;
-    }
+  if (isLoading) {
+    return <RecipesGridSkeleton count={1} />;
+  }
 
-    if(props.match.url.includes("editForm")) {
-        return <RecipeForm recipeToEdit={recipe}/>
-    } else {
-        return <RecipePage recipe={recipe} />
-    }
+  if (props.match.url.includes("editForm")) {
+    return <RecipeForm recipeToEdit={recipe} />;
+  } else {
+    return <RecipePage recipe={recipe} />;
+  }
 }
 
 export async function UpdateRecipe(recipe: RecipeModel) {
-    const { data: result } = await axios.patch(`${Constants.url}/recipes/${recipe.id}`, recipe);
-    return result;
+  const { data: result } = await axios.patch(
+    `${Constants.url}/recipes/${recipe.id}`,
+    recipe
+  );
+  return result;
 }
 
-export async function DeleteRecipe(id:string) {
-    const { data: result } = await axios.delete(`${Constants.url}/recipes/${id}`);
-    return result;
+export async function DeleteRecipe(id: string) {
+  const { data: result } = await axios.delete(`${Constants.url}/recipes/${id}`);
+  return result;
 }
 
 export async function InsertRecipe(recipe: RecipeModel) {
-    const { data: result } = await axios.post(`${Constants.url}/recipes/`, recipe);
-    return result;
+  const { data: result } = await axios.post(
+    `${Constants.url}/recipes/`,
+    recipe
+  );
+  return result;
 }
 
 /*
