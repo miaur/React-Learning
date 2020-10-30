@@ -15,6 +15,7 @@ import ShareIcon from "@material-ui/icons/Share";
 
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipeCardMenu from "./RecipeCardMenu";
+import { RecipeTimeToCook } from "./RecipeTimeToCook";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,9 +89,7 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
         title={recipe.title}
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Time to cook: {recipe.timetocook}
-        </Typography>
+        <RecipeTimeToCook timetocook={recipe.timetocook} />
         <Typography paragraph>Ingredients: </Typography>
         {ingredients}
       </CardContent>

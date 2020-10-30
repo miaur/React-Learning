@@ -2,14 +2,14 @@ import React, { useRef, useState } from "react";
 
 import TextField from "@material-ui/core/TextField";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Button, Grid, List, Paper } from "@material-ui/core";
+import { Button, Grid, List, MenuItem, Paper } from "@material-ui/core";
 import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoTone";
 import IngredientForm from "./IngredientForm";
-import { IngredientModel } from "../../models/IngredientModel";
+import { IngredientModel, IngredientType } from "../../models/IngredientModel";
 import AlertDialog from "../AlertDialog/AlertDialog";
 import { AlertDialogState } from "../../models/AlertDialogState";
 import { InsertRecipe, UpdateRecipe } from "../RecepieControl/RecepieControl";
-import { RecipeModel } from "../../models/RecipeModel";
+import { DishType, RecipeModel } from "../../models/RecipeModel";
 
 import { Field, FieldArray, Form, Formik } from "formik";
 import { initialFormikvalues, validationSchema } from "./RPFormikValidation";
@@ -44,6 +44,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+export function mapTypes(type: typeof IngredientType | typeof DishType) {
+  const values = Object.values(type).filter((x) => typeof x === "string");
+  let ret = [
+    <MenuItem key={"-1"} value="">
+      <em>None</em>
+    </MenuItem>,
+  ];
+  let arr = values.map((value) => (
+    <MenuItem key={value} value={value}>
+      <em>{value}</em>
+    </MenuItem>
+  ));
+  return ret.concat(arr);
+}
+
 export function makeRandomKey(length: number) {
   let result = "";
   let characters =
@@ -63,6 +78,7 @@ export default function RecipeForm({
   const initialRecipeToEditvalues = initialFormikvalues;
   if (recipeToEdit) {
     initialRecipeToEditvalues.id = recipeToEdit.id;
+    initialRecipeToEditvalues.type = recipeToEdit.type;
     initialRecipeToEditvalues.title = recipeToEdit.title;
     initialRecipeToEditvalues.steps = recipeToEdit.directions;
     initialRecipeToEditvalues.image = recipeToEdit.image;
@@ -76,11 +92,12 @@ export default function RecipeForm({
     open: false,
   });
 
-  const valueRefForTimeToCook = useRef<HTMLInputElement>();
+  const valueRefForTimeToCook = useRef<number>();
   const valueRefForImageUrl = useRef<HTMLInputElement>();
 
   const createRecipeObject = (
     title: string,
+    type: string,
     directions: Array<string>,
     ingredients: Array<IngredientModel>,
     date?: string,
@@ -88,6 +105,7 @@ export default function RecipeForm({
   ) => {
     const recipeObject: RecipeModel = {
       id: id ? id : makeRandomKey(30),
+      type: type,
       date: date ? date : new Date().toDateString(),
       directions: directions,
       title: title,
@@ -96,8 +114,8 @@ export default function RecipeForm({
         : "",
       ingredients: ingredients,
       timetocook: valueRefForTimeToCook.current
-        ? valueRefForTimeToCook.current.value
-        : "",
+        ? (valueRefForTimeToCook.current as number)
+        : 0,
     };
     return recipeObject;
   };
@@ -110,6 +128,7 @@ export default function RecipeForm({
             try {
               if (!recipeToEdit) {
                 const newRecipeToInsert: RecipeModel = createRecipeObject(
+                  values.type,
                   values.title,
                   values.steps,
                   values.ingredients
@@ -122,6 +141,7 @@ export default function RecipeForm({
               } else {
                 const newRecipeToInsert: RecipeModel = createRecipeObject(
                   values.title,
+                  values.type,
                   values.steps,
                   values.ingredients,
                   values.date,
@@ -167,6 +187,25 @@ export default function RecipeForm({
                           {...field}
                           error={!!meta.error && meta.touched}
                         />
+                      )}
+                    </Field>
+                  </Grid>
+                  {/* *** Dish Type *** */}
+                  <Grid item xs={12}>
+                    <Field name={"type"}>
+                      {({ field, meta }: any) => (
+                        <TextField
+                          className={classes.singleTextfield}
+                          id="outlined-required"
+                          variant="outlined"
+                          select
+                          label="Dish Type"
+                          helperText={meta.error}
+                          {...field}
+                          error={!!meta.error && meta.touched}
+                        >
+                          {mapTypes(DishType)}
+                        </TextField>
                       )}
                     </Field>
                   </Grid>

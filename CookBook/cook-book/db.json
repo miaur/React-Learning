@@ -2,9 +2,10 @@
   "recipes": [
     {
       "id": "56c782f18990ecf954f6e027",
+      "type": "second course",
       "title": "Crock Pot Roast",
-      "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "5 minutes",
+      "date": "Tue Oct 27 2020",
+      "timetocook": 5,
       "ingredients": [
         {
           "quantity": "1",
@@ -38,14 +39,15 @@
         "Pour the water around the roast.",
         "Cook on low for 7-9 hours."
       ],
-      "image": "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg",
+      "image": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F43%2F2020%2F08%2F30%2Fcreamy-pork-stew.jpeg&w=640&h=428&c=sc&poi=face&q=85",
       "originalURL": "http://www.food.com/recipe/to-die-for-crock-pot-roast-27208"
     },
     {
       "id": "56c782f18990ecf954f6e026",
+      "type": "",
       "title": "Roasted Asparagus",
       "date": "Tue Oct 20 2020",
-      "timetocook": "16 minutes",
+      "timetocook": 16,
       "ingredients": [
         {
           "quantity": "1 lb",
@@ -80,9 +82,10 @@
     },
     {
       "id": "56c782f18990ecf954f6e025",
+      "type": "",
       "title": "Curried Lentils and Rice",
       "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "20 minutes",
+      "timetocook": 20,
       "ingredients": [
         {
           "quantity": "1 quart",
@@ -121,9 +124,10 @@
     },
     {
       "id": "56c782f18990ecf954f6e024",
+      "type": "",
       "title": "Big Night Pizza",
       "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "70 minutes",
+      "timetocook": 70,
       "ingredients": [
         {
           "quantity": "5 teaspoons",
@@ -179,9 +183,10 @@
     },
     {
       "id": "56c782f18990ecf954f6e021",
+      "type": "",
       "title": "Cranberry and Apple Stuffed Acorn Squash Recipe",
       "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "5 minutes",
+      "timetocook": 5,
       "ingredients": [
         {
           "quantity": "2",
@@ -229,9 +234,10 @@
     },
     {
       "id": "56c782f18990ecf956f6e027",
+      "type": "",
       "title": "Mic's Yorkshire Puds",
       "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "1 hour",
+      "timetocook": 1,
       "ingredients": [
         {
           "quantity": "200g",
@@ -270,9 +276,10 @@
     },
     {
       "id": "56c752f18990ecf954f6e027",
+      "type": "",
       "title": "Old-Fashioned Oatmeal Cookies",
       "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "5 minutes",
+      "timetocook": 5,
       "ingredients": [
         {
           "quantity": "1 cup",
@@ -352,9 +359,10 @@
     },
     {
       "id": "56c782f19990ecf954f6e027",
+      "type": "",
       "title": "Blueberry Oatmeal Squares Goleb Ghthnfdgsy hfjdshfj",
       "date": "Thu Oct 22 2020",
-      "timetocook": "50 minutes",
+      "timetocook": 50,
       "ingredients": [
         {
           "quantity": "2-1/2 cups",
@@ -422,9 +430,10 @@
     },
     {
       "id": "56c785f18990ecf954f6e027",
+      "type": "",
       "title": "Curried chicken salad",
       "date": "2016-06-09T15:03:23.000Z",
-      "timetocook": "5 minutes",
+      "timetocook": 5,
       "ingredients": [
         {
           "quantity": "3",
@@ -503,6 +512,7 @@
     },
     {
       "id": "iTLMaeH9hptRw0tpczXUzKNDaamKS2",
+      "type": "",
       "date": "1602233361601",
       "directions": [
         "Preheat the oven to 325 degrees F (165 degrees C). Grease two 9x5-inch loaf pan with cooking spray.",
@@ -522,10 +532,11 @@
           "type": "flavoring"
         }
       ],
-      "timetocook": "1 hr 25 mins"
+      "timetocook": 85
     },
     {
       "id": "23QcLTjaeeaDC6apSEGmPdOTFxJKQG",
+      "type": "",
       "date": "Sun Oct 18 2020",
       "directions": [""],
       "title": "new recipe",
@@ -537,10 +548,11 @@
           "type": ""
         }
       ],
-      "timetocook": "5 min"
+      "timetocook": 5
     },
     {
       "id": "0WnNUspizGWtcGc9tLLqPdcx3EW4KU",
+      "type": "",
       "date": "Sun Oct 18 2020",
       "directions": [""],
       "title": "tygtrfyhfdhjghfj",
@@ -556,6 +568,7 @@
     },
     {
       "id": "mw01J40Fcs2chKMSsGRDXadMm2kKNQ",
+      "type": "",
       "date": "Sun Oct 18 2020",
       "directions": ["", ""],
       "title": "tygtrfyhfdhjghfj",
@@ -571,6 +584,7 @@
     },
     {
       "id": "TfG4rqrnZykpwcRphFRkHhQVTpcsaA",
+      "type": "",
       "date": "Sun Oct 18 2020",
       "directions": [""],
       "title": "tygtrfyhfdhjghfj",
@@ -586,6 +600,7 @@
     },
     {
       "id": "j3r394BcFabUtQvmo3nbAgq8VnyXRP",
+      "type": "",
       "date": "Mon Oct 19 2020",
       "directions": ["Ann ann ann annn"],
       "title": "Ann ann ann",
@@ -597,10 +612,11 @@
           "type": "fruits"
         }
       ],
-      "timetocook": "5 min"
+      "timetocook": 5
     },
     {
       "id": "dyeqkT0N3mns1lIsH0NnU49UGyuUHl",
+      "type": "",
       "date": "Tue Oct 20 2020",
       "directions": [
         "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?",
@@ -629,6 +645,7 @@
     },
     {
       "id": "EW0RPn2bycYexBXJhIHcpOV2NsEGe0",
+      "type": "",
       "date": "Mon Oct 19 2020",
       "directions": [
         "Mix tomatoes, mozzarella, basil, 1 clove minced garlic, and 1 tablespoon olive oil in a bowl; toss to coat. Cover bowl and refrigerate.",
@@ -649,7 +666,7 @@
           "type": "meat"
         }
       ],
-      "timetocook": "456 ghjh"
+      "timetocook": 45
     }
   ]
 }

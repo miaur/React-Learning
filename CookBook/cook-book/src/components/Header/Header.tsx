@@ -38,9 +38,11 @@ export default function Header() {
             Add New Recipe
           </Button>
         </Link>
-        <Button variant="outlined" color="primary">
-          Sing In
-        </Button>
+        <Link to={`/test`}>
+          <Button variant="outlined" color="primary">
+            MobX + Hooks Hellow World
+          </Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );

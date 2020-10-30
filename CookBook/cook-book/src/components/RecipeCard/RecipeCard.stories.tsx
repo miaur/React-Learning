@@ -35,6 +35,7 @@ const ingredients: Array<IngredientModel> = [
 
 const recipe: RecipeModel = {
   id: "56c782f18990ecf954f6e027",
+  type: "",
   date: "2016-06-09T15:03:23.000Z",
   title: "Chef John's Frozen Zabaglione",
   directions: [
@@ -43,7 +44,7 @@ const recipe: RecipeModel = {
   ingredients: ingredients,
   image:
     "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F43%2F2020%2F08%2F27%2FIMG_5769-2000.jpg&w=272&h=272&c=sc&poi=face&q=85",
-  timetocook: "5 minutes",
+  timetocook: 5,
 };
 
 storiesOf("Recipe", module).add("Default", () => (

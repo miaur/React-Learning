@@ -1,6 +1,8 @@
 import React from "react";
 import {
+  Button,
   CardMedia,
+  Link,
   List,
   ListItem,
   ListItemSecondaryAction,
@@ -11,6 +13,7 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { RecipeModel } from "../../models/RecipeModel";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -125,6 +128,17 @@ export default function RecipePage({ recipe }: { recipe: RecipeModel }) {
   return (
     <div>
       <Paper className={classes.mainPaper}>
+        <Typography paragraph>
+          <Link
+            href={`/editForm/${recipe.id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <Button>
+              <EditIcon />
+              Edit
+            </Button>
+          </Link>
+        </Typography>
         <Typography className={classes.spaceBetweentElements} />
         <Typography
           className={classes.header}

@@ -12,6 +12,7 @@ import React from "react";
 import { IngredientType } from "../../models/IngredientModel";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Field } from "formik";
+import { mapTypes } from "./RecipeForm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,24 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-function mapIngredientsTypes() {
-  const values = Object.values(IngredientType).filter(
-    (x) => typeof x === "string"
-  );
-  let ret = [
-    <MenuItem key={"-1"} value="">
-      <em>None</em>
-    </MenuItem>,
-  ];
-  let arr = values.map((value) => (
-    <MenuItem key={value} value={value}>
-      <em>{value}</em>
-    </MenuItem>
-  ));
-  ret.concat(arr);
-  return ret;
-}
 
 interface IngredientFormProps {
   quantity: string;
@@ -107,7 +90,7 @@ export default function IngredientForm(props: IngredientFormProps) {
                 {...field}
                 error={!!meta.error && meta.touched}
               >
-                {mapIngredientsTypes()}
+                {mapTypes(IngredientType)}
               </TextField>
             )}
           </Field>

@@ -2,10 +2,19 @@ import { IngredientModel } from "./IngredientModel";
 
 export interface RecipeModel {
   id: string;
+  type: string;
   date: string;
   title: string;
   directions: Array<string>;
   image: string;
   ingredients: Array<IngredientModel>;
-  timetocook: string;
+  timetocook: number;
+}
+
+export enum DishType {
+  "soup",
+  "second course",
+  "vegan",
+  "desert",
+  "drink",
 }

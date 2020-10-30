@@ -26,10 +26,11 @@ export const validationSchema = Yup.object().shape({
 
 export const initialFormikvalues = {
   id: "",
+  type: "",
   title: "",
   ingredients: [{ quantity: "", name: "", type: "" }],
   steps: [""],
   date: "",
   image: "",
-  timetocook: "",
+  timetocook: 0,
 };
