@@ -14,13 +14,15 @@ import {
   Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
-import React, { ChangeEvent, useState } from "react";
+import React, { useContext } from "react";
 import { IngredientType } from "../../models/IngredientModel";
-import { DishType } from "../../models/RecipeModel";
-import NumberFormat from "react-number-format";
+import { DishType, RecipeModel } from "../../models/RecipeModel";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
+import { Filter, FilterContext } from "../stores/RecipesListFilter/Filter";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,42 +36,96 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function mapTypes(type: typeof IngredientType | typeof DishType) {
-  const values = Object.values(type).filter((x) => typeof x === "string");
-  return values.map((value) => (
-    <FormControlLabel
-      control={
-        <Checkbox
-          icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<CheckCircleOutlineIcon color="action" />}
-          name={`${value}Ch`}
-          onClick={() => {}}
-        />
-      }
-      label={value}
-    />
-  ));
+export interface RecipesListFilterProps {
+  currentRecipesList: Array<RecipeModel>;
+  onFilterChange: (filteredRecipesList: Array<RecipeModel>) => void;
 }
 
-interface TimeToCookState {
-  from: string;
-  to: string;
-}
-
-export default function RecipesFilterMenu() {
+export const RecipesFilterMenu = observer((props: RecipesListFilterProps) => {
   const classes = useStyles();
-  const [timeToCookvalues, setTimeToCookvalues] = useState<TimeToCookState>({
-    from: "",
-    to: "",
-  });
+  const filter = useContext(FilterContext);
+  filter.currentRecipesList = props.currentRecipesList;
+
+  const mapTypes = function (
+    type: typeof IngredientType | typeof DishType,
+    filter: Filter,
+    typeOfEnum: string
+  ) {
+    const values = Object.values(type).filter((x) => typeof x === "string");
+    return values.map((value) => (
+      <FormControlLabel
+        control={
+          <Checkbox
+            icon={<RadioButtonUncheckedIcon />}
+            checkedIcon={<CheckCircleOutlineIcon color="action" />}
+            name={`${value}`}
+            onChange={(e) => {
+              if (e.target.checked) {
+                if (
+                  typeOfEnum === "IngredientType" &&
+                  !filter.ingredientsType.includes(e.target.name)
+                ) {
+                  filter.ingredientsType.push(e.target.name);
+                  props.onFilterChange(filter.filteredRecipesList);
+                } else if (
+                  typeOfEnum === "DishType" &&
+                  !filter.dishType.includes(e.target.name)
+                ) {
+                  filter.dishType.push(e.target.name);
+                  props.onFilterChange(filter.filteredRecipesList);
+                }
+              } else {
+                if (typeOfEnum === "IngredientType") {
+                  filter.ingredientsType = filter.ingredientsType.filter(
+                    (item) => item !== e.target.name
+                  );
+                  props.onFilterChange(filter.filteredRecipesList);
+                } else if (typeOfEnum === "DishType") {
+                  filter.dishType = filter.dishType.filter(
+                    (item) => item !== e.target.name
+                  );
+                  props.onFilterChange(filter.filteredRecipesList);
+                }
+              }
+            }}
+          />
+        }
+        label={value}
+      />
+    ));
+  };
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={() => {}}>
-        <MenuBookIcon />
-        Filter
+      <Button
+        onClick={() => {
+          filter.title = "";
+          filter.title = "";
+          filter.timeToCookFrom = "";
+          filter.timeToCookTo = "";
+          filter.favorites = false;
+          filter.dishType = [];
+          filter.ingredientsType = [];
+          props.onFilterChange(filter.currentRecipesList);
+        }}
+      >
+        <FilterListIcon />
+        Reset filter
       </Button>
-      <Typography paragraph />
+      <FormControlLabel
+        control={
+          <Checkbox
+            icon={<RadioButtonUncheckedIcon />}
+            checkedIcon={<CheckCircleOutlineIcon color="action" />}
+            name="favoriteCh"
+            onClick={() => {
+              filter.favorites = !filter.favorites;
+              props.onFilterChange(filter.filteredRecipesList);
+            }}
+          />
+        }
+        label="Favorite Recipes"
+      />
       <Accordion defaultExpanded className={classes.filterMenu}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -79,7 +135,16 @@ export default function RecipesFilterMenu() {
           <Typography className={classes.filterHeading}>Title</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <TextField id="outlined-required" label="" variant="outlined" />
+          <TextField
+            id="outlined-required"
+            label=""
+            variant="outlined"
+            value={filter.title}
+            onChange={(e) => {
+              filter.title = e.target.value;
+              props.onFilterChange(filter.filteredRecipesList);
+            }}
+          />
         </AccordionDetails>
       </Accordion>
       <Accordion defaultExpanded className={classes.filterMenu}>
@@ -91,7 +156,7 @@ export default function RecipesFilterMenu() {
           <Typography className={classes.filterHeading}>Dish Type</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FormGroup>{mapTypes(DishType)}</FormGroup>
+          <FormGroup>{mapTypes(DishType, filter, "DishType")}</FormGroup>
         </AccordionDetails>
       </Accordion>
       <Accordion defaultExpanded>
@@ -103,7 +168,9 @@ export default function RecipesFilterMenu() {
           <Typography className={classes.filterHeading}>Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FormGroup>{mapTypes(IngredientType)}</FormGroup>
+          <FormGroup>
+            {mapTypes(IngredientType, filter, "IngredientType")}
+          </FormGroup>
         </AccordionDetails>
       </Accordion>
       <Accordion defaultExpanded className={classes.filterMenu}>
@@ -122,12 +189,10 @@ export default function RecipesFilterMenu() {
               <TextField
                 label="from"
                 type={"number"}
-                value={timeToCookvalues.from}
+                value={toJS(filter.timeToCookFrom)}
                 onChange={(e) => {
-                  setTimeToCookvalues({
-                    from: e.target.value,
-                    to: timeToCookvalues.to,
-                  });
+                  filter.timeToCookFrom = e.target.value;
+                  props.onFilterChange(filter.filteredRecipesList);
                 }}
                 id="formatted-numberformat-input"
               />
@@ -138,13 +203,11 @@ export default function RecipesFilterMenu() {
             <Grid item xs={5}>
               <TextField
                 label="to"
-                value={timeToCookvalues.to}
+                value={toJS(filter.timeToCookTo)}
                 type={"number"}
                 onChange={(e) => {
-                  setTimeToCookvalues({
-                    to: e.target.value,
-                    from: timeToCookvalues.from,
-                  });
+                  filter.timeToCookTo = e.target.value;
+                  props.onFilterChange(filter.filteredRecipesList);
                 }}
                 id="formatted-numberformat-input"
               />
@@ -154,4 +217,4 @@ export default function RecipesFilterMenu() {
       </Accordion>
     </div>
   );
-}
+});

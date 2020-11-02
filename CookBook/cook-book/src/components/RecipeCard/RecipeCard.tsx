@@ -89,6 +89,13 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
         title={recipe.title}
       />
       <CardContent>
+        {recipe.type && recipe.type != "" ? (
+          <Typography variant="body2" color="textSecondary" component="p">
+            {`Dish Type: ${recipe.type}.`}
+          </Typography>
+        ) : (
+          <></>
+        )}
         <RecipeTimeToCook timetocook={recipe.timetocook} />
         <Typography paragraph>Ingredients: </Typography>
         {ingredients}

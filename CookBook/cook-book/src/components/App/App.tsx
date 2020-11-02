@@ -10,7 +10,6 @@ import Header from "../Header";
 import RecipesList from "../RecipesList";
 import { RecepieControl } from "../RecepieControl/RecepieControl";
 import RecipeForm from "../RecipePage/RecipeForm";
-import { TestMobXPlusHook } from "../TestMobXPlusHook/TestMobXPlusHook";
 
 const history = createBrowserHistory();
 // const queryCache = new QueryCache();
@@ -23,7 +22,6 @@ export default function App() {
         <Router history={history}>
           <Header />
           <Switch>
-            <Route path={["/test"]} component={TestMobXPlusHook} />
             <Route
               path={["/recipe/:id", "/editForm/:id"]}
               component={RecepieControl}

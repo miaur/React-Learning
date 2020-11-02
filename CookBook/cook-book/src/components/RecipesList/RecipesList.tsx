@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { RecipeModel } from "../../models/RecipeModel";
-import RecipesListView from "./RecipesListView";
+import { RecipesListView } from "./RecipesListView";
 import RecipesGridSkeleton from "../RecipeSkeleton/RecipesGridSkeleton";
 import { Constants } from "../../constants";
 

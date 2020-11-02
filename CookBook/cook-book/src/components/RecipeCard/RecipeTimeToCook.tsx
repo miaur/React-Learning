@@ -8,7 +8,7 @@ export function RecipeTimeToCook(props: TimeToCookProps) {
   if (props.timetocook && props.timetocook != 0) {
     if (props.timetocook < 60) {
       return (
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" color="primary" component="p">
           Time to cook: {`${props.timetocook} minutes`}
         </Typography>
       );

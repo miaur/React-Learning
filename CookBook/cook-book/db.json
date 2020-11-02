@@ -44,7 +44,7 @@
     },
     {
       "id": "56c782f18990ecf954f6e026",
-      "type": "",
+      "type": "vegan",
       "title": "Roasted Asparagus",
       "date": "Tue Oct 20 2020",
       "timetocook": 16,
@@ -82,7 +82,7 @@
     },
     {
       "id": "56c782f18990ecf954f6e025",
-      "type": "",
+      "type": "desert",
       "title": "Curried Lentils and Rice",
       "date": "2016-06-09T15:03:23.000Z",
       "timetocook": 20,
@@ -124,7 +124,7 @@
     },
     {
       "id": "56c782f18990ecf954f6e024",
-      "type": "",
+      "type": "vegan",
       "title": "Big Night Pizza",
       "date": "2016-06-09T15:03:23.000Z",
       "timetocook": 70,
@@ -183,7 +183,7 @@
     },
     {
       "id": "56c782f18990ecf954f6e021",
-      "type": "",
+      "type": "desert",
       "title": "Cranberry and Apple Stuffed Acorn Squash Recipe",
       "date": "2016-06-09T15:03:23.000Z",
       "timetocook": 5,
@@ -645,7 +645,7 @@
     },
     {
       "id": "EW0RPn2bycYexBXJhIHcpOV2NsEGe0",
-      "type": "",
+      "type": "drink",
       "date": "Mon Oct 19 2020",
       "directions": [
         "Mix tomatoes, mozzarella, basil, 1 clove minced garlic, and 1 tablespoon olive oil in a bowl; toss to coat. Cover bowl and refrigerate.",
