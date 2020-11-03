@@ -91,6 +91,7 @@ export const RecipesFilterMenu = observer((props: RecipesListFilterProps) => {
           />
         }
         label={value}
+        key={value}
       />
     ));
   };

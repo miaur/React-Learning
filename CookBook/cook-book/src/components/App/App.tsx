@@ -26,7 +26,7 @@ export default function App() {
               path={["/recipe/:id", "/editForm/:id"]}
               component={RecepieControl}
             />
-            <Route path="/editForm" component={RecipeForm} />
+            <Route path="/newRecipeForm" component={RecipeForm} />
             <Route path="/" component={RecipesList} />
           </Switch>
         </Router>

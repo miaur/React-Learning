@@ -33,7 +33,7 @@ export default function Header() {
     <AppBar className={classes.appBar} position="static" color="default">
       <Toolbar className={classes.toolbar}>
         <Link to={`/`}>{img}</Link>
-        <Link to={`/editForm`}>
+        <Link to={`/newRecipeForm`}>
           <Button variant="outlined" color="primary">
             Add New Recipe
           </Button>

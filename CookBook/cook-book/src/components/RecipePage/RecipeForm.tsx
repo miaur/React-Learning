@@ -92,7 +92,7 @@ export default function RecipeForm({
     open: false,
   });
 
-  const valueRefForTimeToCook = useRef<number>();
+  const valueRefForTimeToCook = useRef<HTMLInputElement>();
   const valueRefForImageUrl = useRef<HTMLInputElement>();
 
   const createRecipeObject = (
@@ -114,7 +114,7 @@ export default function RecipeForm({
         : "",
       ingredients: ingredients,
       timetocook: valueRefForTimeToCook.current
-        ? (valueRefForTimeToCook.current as number)
+        ? Number(valueRefForTimeToCook.current.value)
         : 0,
     };
     return recipeObject;
@@ -219,6 +219,7 @@ export default function RecipeForm({
                           label="Time to cook"
                           variant="outlined"
                           inputRef={valueRefForTimeToCook}
+                          type="number"
                           {...field}
                           error={!!meta.error && meta.touched}
                         />

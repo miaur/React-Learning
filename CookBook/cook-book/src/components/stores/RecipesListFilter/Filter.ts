@@ -22,7 +22,7 @@ export class Filter {
     });
 
     const timeToCookTo = this.timeToCookTo;
-    if (timeToCookTo != "")
+    if (timeToCookTo !== "")
       filteredArray = filteredArray.filter(function (elem) {
         return elem.timetocook <= Number(timeToCookTo);
       });
@@ -52,7 +52,7 @@ export class Filter {
       this.ingredientsType.forEach((ingrType) => {
         filteredArray.forEach((recipe) => {
           let ingredients = recipe.ingredients.filter((ingr) => {
-            return ingr.type == ingrType;
+            return ingr.type === ingrType;
           });
           if (ingredients.length) filteredByIngredientsType.push(recipe);
         });

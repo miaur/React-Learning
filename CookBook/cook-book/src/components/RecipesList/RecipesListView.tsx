@@ -39,7 +39,7 @@ export function RecipesListView({ recipes }: { recipes?: Array<RecipeModel> }) {
       <Grid container spacing={1} item xs={9}>
         {!recipesToShow?.length
           ? "Ups... There is no recipies"
-          : recipesToShow.map((recipe) => (
+          : recipesToShow.map((recipe, index) => (
               <Grid xs={4} key={recipe.id} item>
                 <RecipeCard recipe={recipe} />
               </Grid>

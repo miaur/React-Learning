@@ -617,7 +617,7 @@
     {
       "id": "dyeqkT0N3mns1lIsH0NnU49UGyuUHl",
       "type": "",
-      "date": "Tue Oct 20 2020",
+      "date": "Tue Nov 03 2020",
       "directions": [
         "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?",
         "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?"
@@ -641,7 +641,7 @@
           "type": "meat"
         }
       ],
-      "timetocook": ""
+      "timetocook": 56
     },
     {
       "id": "EW0RPn2bycYexBXJhIHcpOV2NsEGe0",
@@ -667,6 +667,22 @@
         }
       ],
       "timetocook": 45
+    },
+    {
+      "id": "wleM0CEOOnFKhFl4D0IQkWWUYDdCvi",
+      "type": "New Test",
+      "date": "Tue Nov 03 2020",
+      "directions": ["fghgfdhygt t yhrty tytr"],
+      "title": "desert",
+      "image": "",
+      "ingredients": [
+        {
+          "quantity": "34",
+          "name": "ghfghd",
+          "type": "vegetables"
+        }
+      ],
+      "timetocook": "55"
     }
   ]
 }
