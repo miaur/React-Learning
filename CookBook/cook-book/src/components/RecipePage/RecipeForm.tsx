@@ -12,7 +12,7 @@ import { InsertRecipe, UpdateRecipe } from "../RecepieControl/RecepieControl";
 import { DishType, RecipeModel } from "../../models/RecipeModel";
 
 import { Field, FieldArray, Form, Formik } from "formik";
-import { initialFormikvalues, validationSchema } from "./RPFormikValidation";
+import { validationSchema } from "./RPFormikValidation";
 import StepForm from "./StepForm";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -75,8 +75,18 @@ export default function RecipeForm({
 }: {
   recipeToEdit?: RecipeModel;
 }) {
-  const initialRecipeToEditvalues = initialFormikvalues;
+  const initialRecipeToEditvalues = {
+    id: "",
+    type: "",
+    title: "",
+    ingredients: [{ quantity: "", name: "", type: "" }],
+    steps: [""],
+    date: "",
+    image: "",
+    timetocook: 0,
+  };
   if (recipeToEdit) {
+    console.log("recipeToEdit != undefined");
     initialRecipeToEditvalues.id = recipeToEdit.id;
     initialRecipeToEditvalues.type = recipeToEdit.type;
     initialRecipeToEditvalues.title = recipeToEdit.title;
