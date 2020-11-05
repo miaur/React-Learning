@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
+      maxHeight: 700,
     },
     media: {
       height: 0,

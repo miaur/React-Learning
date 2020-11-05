@@ -109,6 +109,7 @@ export const RecipesFilterMenu = observer((props: RecipesListFilterProps) => {
           filter.ingredientsType = [];
           props.onFilterChange(filter.currentRecipesList);
         }}
+        variant="outlined"
       >
         <FilterListIcon />
         Reset filter

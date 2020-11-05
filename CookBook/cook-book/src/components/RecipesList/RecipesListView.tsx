@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipeCard from "../RecipeCard";
 import { RecipesFilterMenu } from "./RecipesFilterMenu";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +27,7 @@ export function RecipesListView({ recipes }: { recipes?: Array<RecipeModel> }) {
 
   return (
     <Grid container className={classes.root}>
-      <Grid container spacing={1} item xs={3}>
+      <Grid container item xs={3}>
         <Grid item xs={10}>
           <RecipesFilterMenu
             currentRecipesList={recipes ?? []}
@@ -39,7 +40,7 @@ export function RecipesListView({ recipes }: { recipes?: Array<RecipeModel> }) {
       <Grid container spacing={1} item xs={9}>
         {!recipesToShow?.length
           ? "Ups... There is no recipies"
-          : recipesToShow.map((recipe, index) => (
+          : recipesToShow.map((recipe) => (
               <Grid xs={4} key={recipe.id} item>
                 <RecipeCard recipe={recipe} />
               </Grid>
