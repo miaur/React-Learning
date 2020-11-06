@@ -11,7 +11,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import ShareIcon from "@material-ui/icons/Share";
 
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipeCardMenu from "./RecipeCardMenu";
@@ -20,12 +19,11 @@ import { RecipeTimeToCook } from "./RecipeTimeToCook";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: 400,
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-between",
-      maxHeight: 700,
+      maxHeight: 800,
     },
     media: {
       height: 0,
@@ -40,6 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     expandOpen: {
       transform: "rotate(180deg)",
+    },
+    header: {
+      height: 120,
+      textOverflow: "ellipsis",
     },
   })
 );
@@ -81,7 +83,11 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
     <Card className={classes.root}>
       <CardHeader
         action={<RecipeCardMenu recipeId={recipe.id} />}
-        title={<Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>}
+        title={
+          <Link className={classes.header} to={`/recipe/${recipe.id}`}>
+            {recipe.title}
+          </Link>
+        }
         subheader={new Date(recipe.date).toDateString()}
       />
       <CardMedia
@@ -95,7 +101,7 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
             {`Dish Type: ${recipe.type}.`}
           </Typography>
         ) : (
-          <></>
+          <Typography paragraph />
         )}
         <RecipeTimeToCook timetocook={recipe.timetocook} />
         <Typography paragraph>Ingredients: </Typography>
@@ -111,9 +117,9 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
         >
           {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
-        <IconButton aria-label="share">
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
       </CardActions>
     </Card>
   );
