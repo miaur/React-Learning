@@ -40,8 +40,12 @@ const useStyles = makeStyles((theme: Theme) =>
       transform: "rotate(180deg)",
     },
     header: {
-      height: 120,
-      textOverflow: "ellipsis",
+      height: 70,
+      overflow: "hidden",
+      // lineHeight: 15,
+      display: "-webkit-box",
+      WebkitLineClamp: 2,
+      WebkitBoxOrient: "vertical",
     },
   })
 );
@@ -84,9 +88,9 @@ export default function Recipe({ recipe }: { recipe: RecipeModel }) {
       <CardHeader
         action={<RecipeCardMenu recipeId={recipe.id} />}
         title={
-          <Link className={classes.header} to={`/recipe/${recipe.id}`}>
-            {recipe.title}
-          </Link>
+          <div className={classes.header}>
+            <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+          </div>
         }
         subheader={new Date(recipe.date).toDateString()}
       />
