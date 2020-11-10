@@ -15,6 +15,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { RecipeModel } from "../../models/RecipeModel";
 import RecipeCardMenu from "./RecipeCardMenu";
 import { RecipeTimeToCook } from "./RecipeTimeToCook";
+import { getFavoriresList } from "../RecepieControl/FavoritesList";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,17 +51,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function getFavouriresList() {
-  let favoritesList: Array<string> = [];
-  let favorites = localStorage.getItem("favorites");
-  if (favorites) {
-    favoritesList = JSON.parse(favorites);
-  }
-  return favoritesList;
-}
-
 function handleFavoriteRecipe(recipeId: string) {
-  let favoritesList = getFavouriresList();
+  let favoritesList = getFavoriresList();
   if (favoritesList.includes(recipeId))
     favoritesList = favoritesList.filter((item) => item !== recipeId);
   else favoritesList.push(recipeId);
@@ -71,7 +63,7 @@ function handleFavoriteRecipe(recipeId: string) {
 export default function Recipe({ recipe }: { recipe: RecipeModel }) {
   const classes = useStyles();
   const [favorite, setFavorite] = useState(
-    getFavouriresList().includes(recipe.id)
+    getFavoriresList().includes(recipe.id)
   );
 
   const ingredientsList = recipe.ingredients.map((ingredient, index) => (

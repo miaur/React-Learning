@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { createContext } from "react";
 import { RecipeModel } from "../../../models/RecipeModel";
-import { getFavouriresList } from "../../RecipeCard/RecipeCard";
+import { getFavoriresList } from "../../RecepieControl/FavoritesList";
 
 export class Filter {
   title: string = "";
@@ -16,40 +16,52 @@ export class Filter {
   get filteredRecipesList(): Array<RecipeModel> {
     return this.currentRecipesList.filter((recipe) => {
       return (
-        this.filterByTitle(recipe) &&
-        this.filterByTimeToCook(recipe) &&
-        this.filterByDishType(recipe) &&
-        this.filterByIngredientTypes(recipe) &&
-        this.filterFavorites(recipe)
+        Filter.filterByTitle(recipe, this.title) &&
+        Filter.filterByTimeToCook(
+          recipe,
+          this.timeToCookFrom,
+          this.timeToCookTo
+        ) &&
+        Filter.filterByDishType(recipe, this.dishType) &&
+        Filter.filterByIngredientTypes(recipe, this.ingredientsType) &&
+        (this.favorites
+          ? Filter.filterFavorites(recipe, getFavoriresList())
+          : true)
       );
     });
   }
 
-  filterFavorites = (recipe: RecipeModel) => {
-    const favoritesList = getFavouriresList();
-    return this.favorites ? favoritesList.includes(recipe.id) : true;
+  static filterFavorites = (
+    recipe: RecipeModel,
+    favoritesList: Array<string>
+  ) => {
+    return favoritesList.includes(recipe.id);
   };
 
-  filterByTitle = (recipe: RecipeModel) => {
-    return recipe.title.includes(this.title);
+  static filterByTitle = (recipe: RecipeModel, title: string) => {
+    return recipe.title.includes(title);
   };
 
-  filterByDishType = (recipe: RecipeModel) => {
-    return this.dishType.length ? this.dishType.includes(recipe.type) : true;
+  static filterByDishType = (recipe: RecipeModel, dishType: Array<string>) => {
+    return dishType.length ? dishType.includes(recipe.type) : true;
   };
 
-  filterByTimeToCook = (recipe: RecipeModel) => {
+  static filterByTimeToCook = (
+    recipe: RecipeModel,
+    timeToCookFrom: string,
+    timeToCookTo: string
+  ) => {
     return (
-      recipe.timetocook >= Number(this.timeToCookFrom) &&
-      (this.timeToCookTo !== ""
-        ? recipe.timetocook <= Number(this.timeToCookTo)
-        : true)
+      recipe.timetocook >= Number(timeToCookFrom) &&
+      (timeToCookTo !== "" ? recipe.timetocook <= Number(timeToCookTo) : true)
     );
   };
 
-  filterByIngredientTypes = (recipe: RecipeModel) => {
-    if (!this.ingredientsType.length) return 1;
-    const ingredientsType = this.ingredientsType;
+  static filterByIngredientTypes = (
+    recipe: RecipeModel,
+    ingredientsType: Array<string>
+  ) => {
+    if (!ingredientsType.length) return 1;
     const filteredIngredients = recipe.ingredients.filter(function (ingr) {
       return ingredientsType.includes(ingr.type);
     });

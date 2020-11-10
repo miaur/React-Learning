@@ -1,6 +1,11 @@
 import { Filter } from "../components/stores/RecipesListFilter/Filter";
 import { DishType, RecipeModel } from "../models/RecipeModel";
 import { IngredientType } from "../models/IngredientModel";
+import { getFavoriresList } from "../components/RecepieControl/FavoritesList";
+jest.mock("../components/RecepieControl/FavoritesList", () => ({
+  getFavoriresList: jest.fn(),
+}));
+const mockedGetFavoriresList = getFavoriresList as jest.Mock;
 
 const testRecipesList: Array<RecipeModel> = [
   {
@@ -128,10 +133,6 @@ const testRecipesList: Array<RecipeModel> = [
   },
 ];
 
-// test("adds 1 + 2 to equal 3", () => {
-//   expect(sum(1, 2)).toBe(3);
-// });
-
 test("filter by title", () => {
   let filter: Filter = new Filter();
   filter.timeToCookFrom = "";
@@ -143,23 +144,15 @@ test("filter by title", () => {
   filter.currentRecipesList = testRecipesList;
   filter.title = "oa";
 
-  expect(filter.filterByTitle(filter.currentRecipesList[0])).toBe(true);
-  expect(filter.filterByTimeToCook(filter.currentRecipesList[0])).toBe(true);
-  expect(filter.filterByDishType(filter.currentRecipesList[0])).toBe(true);
-  expect(filter.filterByIngredientTypes(filter.currentRecipesList[0])).toBe(1);
-  expect(filter.filterFavorites(filter.currentRecipesList[0])).toBe(true);
-
-  expect(filter.filterByTitle(filter.currentRecipesList[1])).toBe(true);
-  expect(filter.filterByTimeToCook(filter.currentRecipesList[1])).toBe(true);
-  expect(filter.filterByDishType(filter.currentRecipesList[1])).toBe(true);
-  expect(filter.filterByIngredientTypes(filter.currentRecipesList[1])).toBe(1);
-  expect(filter.filterFavorites(filter.currentRecipesList[1])).toBe(true);
-
-  expect(filter.filterByTitle(filter.currentRecipesList[2])).toBe(false);
-  expect(filter.filterByTimeToCook(filter.currentRecipesList[2])).toBe(true);
-  expect(filter.filterByDishType(filter.currentRecipesList[2])).toBe(true);
-  expect(filter.filterByIngredientTypes(filter.currentRecipesList[2])).toBe(1);
-  expect(filter.filterFavorites(filter.currentRecipesList[2])).toBe(true);
+  expect(Filter.filterByTitle(filter.currentRecipesList[0], filter.title)).toBe(
+    true
+  );
+  expect(Filter.filterByTitle(filter.currentRecipesList[1], filter.title)).toBe(
+    true
+  );
+  expect(Filter.filterByTitle(filter.currentRecipesList[2], filter.title)).toBe(
+    false
+  );
 
   expect(filter.filteredRecipesList.length).toBe(2);
 });
@@ -175,9 +168,27 @@ test("filter by timeToCookTo", () => {
   filter.timeToCookFrom = "10";
   filter.timeToCookTo = "21";
 
-  expect(filter.filterByTimeToCook(filter.currentRecipesList[0])).toBe(false);
-  expect(filter.filterByTimeToCook(filter.currentRecipesList[1])).toBe(true);
-  expect(filter.filterByTimeToCook(filter.currentRecipesList[2])).toBe(true);
+  expect(
+    Filter.filterByTimeToCook(
+      filter.currentRecipesList[0],
+      filter.timeToCookFrom,
+      filter.timeToCookTo
+    )
+  ).toBe(false);
+  expect(
+    Filter.filterByTimeToCook(
+      filter.currentRecipesList[1],
+      filter.timeToCookFrom,
+      filter.timeToCookTo
+    )
+  ).toBe(true);
+  expect(
+    Filter.filterByTimeToCook(
+      filter.currentRecipesList[2],
+      filter.timeToCookFrom,
+      filter.timeToCookTo
+    )
+  ).toBe(true);
   expect(filter.filteredRecipesList.length).toBe(2);
 });
 
@@ -190,16 +201,16 @@ test("filter by dishType", () => {
   filter.timeToCookTo = "";
 
   filter.currentRecipesList = testRecipesList;
-  filter.dishType = [DishType[1]];
+  filter.dishType = [DishType.secondCourse];
   expect(filter.filteredRecipesList.length).toBe(1);
 
-  filter.dishType = [DishType[1], DishType[2]];
+  filter.dishType = [DishType.secondCourse, DishType.vegan];
   expect(filter.filteredRecipesList.length).toBe(2);
 
-  filter.dishType = [DishType[1], DishType[2], DishType[3]];
+  filter.dishType = [DishType.secondCourse, DishType.vegan, DishType.desert];
   expect(filter.filteredRecipesList.length).toBe(3);
 
-  filter.dishType = [DishType[1], DishType[2], DishType[0]];
+  filter.dishType = [DishType.secondCourse, DishType.vegan, DishType.soup];
   expect(filter.filteredRecipesList.length).toBe(2);
 });
 
@@ -213,33 +224,41 @@ test("filter by favorites", () => {
 
   filter.currentRecipesList = testRecipesList;
   filter.favorites = true;
-  localStorage.setItem("favorites", JSON.stringify(new Array<string>()));
-  expect(filter.filteredRecipesList.length).toBe(0);
 
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify(new Array<string>("56c782f18990ecf954f6e027"))
-  );
-  expect(filter.filteredRecipesList.length).toBe(1);
+  let favoritesList = new Array<string>();
+  const mockLocalStorage = jest.fn((recipe) => {
+    return Filter.filterFavorites(recipe, favoritesList);
+  });
 
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify(
-      new Array<string>("56c782f18990ecf954f6e027", "56c782f18990ecf954f6e026")
-    )
-  );
-  expect(filter.filteredRecipesList.length).toBe(2);
+  testRecipesList.forEach(mockLocalStorage);
+  expect(mockLocalStorage.mock.calls.length).toBe(3);
+  expect(mockLocalStorage.mock.results[0].value).toBe(false);
 
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify(
-      new Array<string>(
-        "56c782f18990ecf954f6e027",
-        "56c782f18990ecf954f6e026",
-        "abra-cadabra"
-      )
-    )
-  );
+  favoritesList = new Array<string>("56c782f18990ecf954f6e027");
+  testRecipesList.forEach(mockLocalStorage);
+  expect(mockLocalStorage.mock.calls.length).toBe(6);
+  expect(mockLocalStorage.mock.results[3].value).toBe(true);
+  expect(mockLocalStorage.mock.results[4].value).toBe(false);
+});
+
+test("filter by favorites with mock favorites list", () => {
+  let filter: Filter = new Filter();
+  filter.ingredientsType = [];
+  filter.title = "";
+  filter.timeToCookFrom = "";
+  filter.timeToCookTo = "";
+  filter.dishType = [];
+
+  filter.currentRecipesList = testRecipesList;
+  filter.favorites = true;
+
+  mockedGetFavoriresList.mockImplementation(() => {
+    return new Array<string>(
+      "56c782f18990ecf954f6e027",
+      "56c782f18990ecf954f6e026",
+      "abra-cadabra"
+    );
+  });
   expect(filter.filteredRecipesList.length).toBe(2);
 });
 
@@ -253,42 +272,29 @@ test("filter by ingredientsType", () => {
 
   filter.currentRecipesList = testRecipesList;
 
-  /*
-  0"groats",
-  1"vegetables",
-  2"fruits",
-  3"meat",
-  4"fish",
-  5"spice",
-  6"dairy",
-  7"condiments",
-  8"flavoring",
-  9"other",
-*/
-
-  filter.ingredientsType = [IngredientType[4]];
+  filter.ingredientsType = [IngredientType.fish];
   expect(filter.filteredRecipesList.length).toBe(1);
 
-  filter.ingredientsType = [IngredientType[9]];
+  filter.ingredientsType = [IngredientType.other];
   expect(filter.filteredRecipesList.length).toBe(1);
 
-  filter.ingredientsType = [IngredientType[5]];
+  filter.ingredientsType = [IngredientType.spice];
   expect(filter.filteredRecipesList.length).toBe(1);
 
-  filter.ingredientsType = [IngredientType[5], IngredientType[3]];
+  filter.ingredientsType = [IngredientType.spice, IngredientType.meat];
   expect(filter.filteredRecipesList.length).toBe(2);
 
   filter.ingredientsType = [
-    IngredientType[3],
-    IngredientType[8],
-    IngredientType[2],
+    IngredientType.meat,
+    IngredientType.flavoring,
+    IngredientType.fruits,
   ];
   expect(filter.filteredRecipesList.length).toBe(3);
 
-  filter.ingredientsType = [IngredientType[7]];
+  filter.ingredientsType = [IngredientType.condiments];
   expect(filter.filteredRecipesList.length).toBe(0);
 
-  filter.ingredientsType = [IngredientType[5], IngredientType[4]];
+  filter.ingredientsType = [IngredientType.spice, IngredientType.fish];
   expect(filter.filteredRecipesList.length).toBe(1);
 });
 
@@ -297,26 +303,27 @@ test("filter by all criteria", () => {
   filter.title = "oa";
   filter.timeToCookFrom = "";
   filter.timeToCookTo = "10";
-  filter.dishType = [DishType[1]];
-  filter.ingredientsType = [IngredientType[3]];
+  filter.dishType = [DishType.secondCourse];
+  filter.ingredientsType = [IngredientType.meat];
 
   filter.currentRecipesList = testRecipesList;
   filter.favorites = false;
   expect(filter.filteredRecipesList.length).toBe(1);
 
+  mockedGetFavoriresList.mockImplementation(() => {
+    return new Array<string>();
+  });
   filter.favorites = true;
-  localStorage.setItem("favorites", JSON.stringify(new Array<string>()));
   expect(filter.filteredRecipesList.length).toBe(0);
 
-  localStorage.setItem(
-    "favorites",
-    JSON.stringify(new Array<string>("56c782f18990ecf954f6e027"))
-  );
+  mockedGetFavoriresList.mockImplementation(() => {
+    return new Array<string>("56c782f18990ecf954f6e027");
+  });
   expect(filter.filteredRecipesList.length).toBe(1);
 
-  filter.dishType = [DishType[2]];
+  filter.dishType = [DishType.vegan];
   expect(filter.filteredRecipesList.length).toBe(0);
 
-  filter.dishType = [DishType[2], DishType[1]];
+  filter.dishType = [DishType.vegan, DishType.secondCourse];
   expect(filter.filteredRecipesList.length).toBe(1);
 });

@@ -12,9 +12,9 @@ export interface RecipeModel {
 }
 
 export enum DishType {
-  "soup",
-  "second course",
-  "vegan",
-  "desert",
-  "drink",
+  soup = "soup",
+  secondCourse = "second course",
+  vegan = "vegan",
+  desert = "desert",
+  drink = "drink",
 }

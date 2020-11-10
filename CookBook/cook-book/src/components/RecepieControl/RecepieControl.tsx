@@ -59,10 +59,6 @@ export async function InsertRecipe(recipe: RecipeModel) {
   return result;
 }
 
-export async function FilterRecipesList() {
-  return null;
-}
-
 /*
 interface InsertNewRecipeProps {
     recipe: RecipeModel,
